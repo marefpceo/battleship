@@ -8,6 +8,11 @@
     "watch": "webpack --watch & jest --watch *.js",
     "build": "webpack"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marefpceo/battleship.git"
@@ -20,6 +25,9 @@
   },
   "homepage": "https://github.com/marefpceo/battleship#readme",
   "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "babel-jest": "^29.5.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.37.0",
     "jest": "^29.5.0",
