@@ -3,17 +3,9 @@ const Ship = (size) => {
   let hitCount = 0;
   let sunk = false;
 
-  const hit = () => {
-    hitCount += 1;
-  };
+  const hit = () => {hitCount += 1;};
 
-  const isSunk = () => {
-    if (length === hitCount) {
-      sunk = true;
-    } else {
-      sunk = false;
-    }
-  }
+  const isSunk = () => {length === hitCount ? sunk = true : sunk = false;}
 
   return {
     get hits() {
@@ -22,9 +14,7 @@ const Ship = (size) => {
     get status() {
       return sunk;
     },
-    length,
-    hit,
-    isSunk
+    length, hit, isSunk
   }
 }
 

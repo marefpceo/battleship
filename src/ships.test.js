@@ -1,7 +1,8 @@
-const ships = require('./ships');
+/* eslint-disable no-undef */
+import { Ship } from './ships';
 
 describe('Test factory function outputs', () => {
-  const shipTest = new ships.Ship(5);
+  const shipTest = new Ship(5);
 
   test('the length of the current ship', () => {
     expect(shipTest.length).toBe(5);
@@ -20,6 +21,4 @@ describe('Test factory function outputs', () => {
     expect(shipTest.hits).toBe(shipTest.length);
     expect(shipTest.status).toBeTruth;
   });
-
-
 });
