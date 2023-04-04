@@ -42,17 +42,27 @@ const Gameboard = () => {
 
   const createShips = () =>{
     for (let i = 0; i < ships.length; i++) {
-      let shipInfo = {};
       let ship = new Ship(ships[i][1]);
       startPosition(ships[i][2], ships[i][3]);
-      shipInfo.name = ships[i][0];
-      shipInfo.length = ship.length;
-      shipInfo.hits = ship.hits;
-      shipInfo.sunkStat = ship.sunkStatus;
-      shipInfo.position = shipPosition(ships[i][4], ship.length);
-      shipList.push(shipInfo);
+      ship.name = ships[i][0];
+      ship.position = shipPosition(ships[i][4], ship.length);
+      shipList.push(ship);
     }
     return shipList;
+  }
+
+  const receiveAttack = (strikeCoord) => {
+    for (let i = 0; i < shipList.length; i++) {
+       let current = shipList[i].position;
+       for (let j = 0; j < current.length; j++) {
+        let isSubset = strikeCoord.every((element) => current[j].includes(element));
+        if (isSubset === true) {
+          // apply the hit to the correct ship and record hit
+          shipList[i].hit();
+          return isSubset;
+        }
+      }
+    }
   }
 
   return {
@@ -61,7 +71,11 @@ const Gameboard = () => {
     },
     startPosition,
     shipPosition,
-    createShips
+    createShips,
+    receiveAttack,
+    get list() {
+      return shipList;
+    }
   }
 }
 
