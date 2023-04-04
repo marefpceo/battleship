@@ -11,7 +11,7 @@ const Ship = (size) => {
     get hits() {
       return hitCount;
     },
-    get status() {
+    get sunkStatus() {
       return sunk;
     },
     length, hit, isSunk

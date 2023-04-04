@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { Gameboard } from './gameboard';
 
-describe('Test horizontal placement of ships', () =>{
+describe('Horizontal placement of ships', () =>{
   const gameboard = new Gameboard();
   
   test('start point is at coord [A, 3]', () => {
@@ -15,7 +15,7 @@ describe('Test horizontal placement of ships', () =>{
   });
 });
 
-describe('Test vertical placement of ship', () => {
+describe('Vertical placement of ship', () => {
   const gameboard = new Gameboard();
   gameboard.startPosition('C', 4);
   const battleship = [['C', 4], ['C', 5], ['C', 6], ['C', 7]];
@@ -23,4 +23,22 @@ describe('Test vertical placement of ship', () => {
   test('ship vertical position based on start position of [C, 4]', () => {
     expect(gameboard.shipPosition(true, 4)).toStrictEqual(battleship);
   });
+});
+
+describe('Create all ships and place at specific locations', () => {
+  const gameboard = new Gameboard();
+  const shipInfo = [{name: 'carrier', length: 5, hits: 0, sunkStat: false, 
+      position: [['A', 4], ['A', 5], ['A', 6], ['A', 7], ['A', 8]]},
+    {name: 'battleship', length: 4, hits: 0, sunkStat: false, 
+      position: [['E', 7], ['F', 7], ['G', 7], ['H', 7]]},
+    {name: 'cruiser', length: 3, hits: 0, sunkStat: false, 
+      position: [['C', 4], ['D', 4], ['E', 4]]},
+    {name: 'destroyer', length: 3, hits: 0, sunkStat: false, 
+      position: [['I', 2], ['I', 3], ['I', 4]]},
+    {name: 'submarine', length: 2, hits: 0, sunkStat: false,
+      position: [['J', 9], ['J', 10]]}
+  ];
+  test('all ships are created with correct info', () => {
+    expect(gameboard.createShips()).toStrictEqual(shipInfo); 
+  });  
 });
