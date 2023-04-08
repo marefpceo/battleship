@@ -4,12 +4,13 @@ const Gameboard = () => {
   let startCoord = [];
   let isVertical = true;
   let shipList = [];
+  let missedAttacks = [];
+  
 
   const startPosition = (column, row) => {
     startCoord = [column, row];
     return startCoord;
   } 
-
 
   const shipPosition = (orientation, shipLenth) => {
     let xVal = startCoord[0];
@@ -39,7 +40,6 @@ const Gameboard = () => {
       ['cruiser', 3, 'C', 4, false], ['destroyer', 3, 'I', 2, true], 
       ['submarine', 2, 'J', 9, true]];
 
-
   const createShips = () =>{
     for (let i = 0; i < ships.length; i++) {
       let ship = new Ship(ships[i][1]);
@@ -57,10 +57,20 @@ const Gameboard = () => {
        for (let j = 0; j < current.length; j++) {
         let isSubset = strikeCoord.every((element) => current[j].includes(element));
         if (isSubset === true) {
-          // apply the hit to the correct ship and record hit
           shipList[i].hit();
           return isSubset;
         }
+      }
+    }
+    missedAttacks.push(strikeCoord);
+  }
+
+  const allShipsSunk = (shipList) => {
+    for (let i = 0; i < shipList.length; i++) {
+      if (shipList[i].sunkStatus === false){
+        return false;
+      } else {
+        return true;
       }
     }
   }
@@ -69,13 +79,17 @@ const Gameboard = () => {
     get start() {
       return startCoord;
     },
+    get list() {
+      return shipList;
+    }, 
+    get missed() {
+      return missedAttacks;
+    },
     startPosition,
     shipPosition,
     createShips,
     receiveAttack,
-    get list() {
-      return shipList;
-    }
+    allShipsSunk
   }
 }
 

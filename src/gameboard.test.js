@@ -38,6 +38,7 @@ describe('Create all ships and place at specific locations', () => {
     {name: 'submarine', length: 2, hits: 0, sunkStatus: false,
       position: [['J', 9], ['J', 10]]}
   ];
+  
   test('all ships are created with correct info', () => {
     expect(gameboard.createShips()).toMatchObject(shipInfo); 
   });  
@@ -50,7 +51,41 @@ describe('Create all ships and place at specific locations', () => {
     test('hit was recorded for cruiser', () => {
       expect(gameboard.list[2].hits).toBe(1);
     });
-    
+  });
+
+  describe('Record missed hit attempts', () => {
+    test('missed attack [E, 5] is recorded', () => {
+      gameboard.receiveAttack(['E', 5]);
+      expect(gameboard.missed).toStrictEqual([['E', 5]]);
+    });
+  });
+
+  describe('Report all ships have NOT been sunk', () => {
+    test('all ships have NOT been sunk', () => {
+      expect(gameboard.allShipsSunk(shipInfo)).toBe(false);
+    })
+  });
+
+  describe('Report all ships have been sunk', () => {
+    const shipInfoAllSunk = [{name: 'carrier', length: 5, hits: 0, sunkStatus: true, 
+      position: [['A', 4], ['A', 5], ['A', 6], ['A', 7], ['A', 8]]},
+    {name: 'battleship', length: 4, hits: 0, sunkStatus: true, 
+      position: [['E', 7], ['F', 7], ['G', 7], ['H', 7]]},
+    {name: 'cruiser', length: 3, hits: 0, sunkStatus: true, 
+      position: [['C', 4], ['D', 4], ['E', 4]]},
+    {name: 'destroyer', length: 3, hits: 0, sunkStatus: true, 
+      position: [['I', 2], ['I', 3], ['I', 4]]},
+    {name: 'submarine', length: 2, hits: 0, sunkStatus: true,
+      position: [['J', 9], ['J', 10]]}
+  ];
+
+    for (let i = 0; i < shipInfoAllSunk.length; i++) {
+      shipInfoAllSunk[i].sunkStatus = true;
+    }
+
+    test('all ships have been sunk', () => {
+      expect(gameboard.allShipsSunk(shipInfoAllSunk)).toBe(true);
+    });
   });
 });
 
