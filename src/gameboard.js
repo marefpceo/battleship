@@ -63,6 +63,7 @@ const Gameboard = () => {
       }
     }
     missedAttacks.push(strikeCoord);
+    return false;
   }
 
   const allShipsSunk = (shipList) => {
