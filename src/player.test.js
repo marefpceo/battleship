@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 import { Player } from './player';
+import { Computer } from './player';
 
 describe('Test player functions', () => {
-  const player = new Player('human');
-  const computer = new Player('computer');
+  const player = new Player();
+  const computer = new Computer();
   player.gameboard.createShips();
   computer.gameboard.createShips();
 
@@ -36,5 +37,7 @@ describe('Test player functions', () => {
     test('player hits with attack at [A, 6]', () => {
       expect(player.attack(['A', 6], computer.gameboard)).toBe(true);
     });
+
+    console.log(computer.attack(player.gameboard));
   });
 });
