@@ -14,7 +14,6 @@ const Player = () => {
 const Computer = () => {
   const {gameboard} = Player();
 
-
   function generateCoord() {
     const row = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
     const col = Math.floor(Math.random() * (10 - 1 + 1) + 1);

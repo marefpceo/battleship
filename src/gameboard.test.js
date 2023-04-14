@@ -38,9 +38,13 @@ describe('Create all ships and place at specific locations', () => {
     {name: 'submarine', length: 2, hits: 0, sunkStatus: false,
       position: [['J', 9], ['J', 10]]}
   ];
+
+  const ships = [['carrier', 5, 'A', 4, true], ['battleship', 4, 'E', 7, false], 
+      ['cruiser', 3, 'C', 4, false], ['destroyer', 3, 'I', 2, true], 
+      ['submarine', 2, 'J', 9, true]];
   
   test('all ships are created with correct info', () => {
-    expect(gameboard.createShips()).toMatchObject(shipInfo); 
+    expect(gameboard.createShips(ships)).toMatchObject(shipInfo); 
   });  
 
   describe('Determine if attack hit a ship or not', () => {

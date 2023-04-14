@@ -6,7 +6,6 @@ const Gameboard = () => {
   let shipList = [];
   let missedAttacks = [];
   
-
   const startPosition = (column, row) => {
     startCoord = [column, row];
     return startCoord;
@@ -36,11 +35,7 @@ const Gameboard = () => {
     return shipCoord;
   }
 
-  const ships = [['carrier', 5, 'A', 4, true], ['battleship', 4, 'E', 7, false], 
-      ['cruiser', 3, 'C', 4, false], ['destroyer', 3, 'I', 2, true], 
-      ['submarine', 2, 'J', 9, true]];
-
-  const createShips = () =>{
+  const createShips = (ships) =>{
     for (let i = 0; i < ships.length; i++) {
       let ship = new Ship(ships[i][1]);
       startPosition(ships[i][2], ships[i][3]);

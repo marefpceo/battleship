@@ -3,10 +3,13 @@ import { Player } from './player';
 import { Computer } from './player';
 
 describe('Test player functions', () => {
+  const ships = [['carrier', 5, 'A', 4, true], ['battleship', 4, 'E', 7, false], 
+      ['cruiser', 3, 'C', 4, false], ['destroyer', 3, 'I', 2, true], 
+      ['submarine', 2, 'J', 9, true]];
   const player = new Player();
   const computer = new Computer();
-  player.gameboard.createShips();
-  computer.gameboard.createShips();
+  player.gameboard.createShips(ships);
+  computer.gameboard.createShips(ships);
 
   describe('Create gameboard object for each player', () => {
     const boardObject = {
