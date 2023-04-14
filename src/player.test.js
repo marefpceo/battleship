@@ -37,7 +37,20 @@ describe('Test player functions', () => {
     test('player hits with attack at [A, 6]', () => {
       expect(player.attack(['A', 6], computer.gameboard)).toBe(true);
     });
+  });
 
-    console.log(computer.attack(player.gameboard));
+  describe('Computer makes random attack on player', () => {
+    test('computer generates random coordinates for attack', () => {
+      expect(computer.attack(player.gameboard, player.gameboard.missed)).toEqual(expect.any(Boolean));
+    });
+
+    test('computer attack at player [E, 5] returns false', () => {
+      expect(computer.verifyCoord(['E',5], player.gameboard.missed)).toBe(false);
+    });
+
+    test('computer duplicate attack at player [A, 1] returns true', () => {
+      player.gameboard.missed.push(['A', 1]);
+      expect(computer.verifyCoord(['A', 1], player.gameboard.missed)).toBe(true);
+    });
   });
 });
