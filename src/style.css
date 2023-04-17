@@ -1,0 +1,59 @@
+:root {
+  --primary: #1f5f8b;
+  --primary-dark: #253b6e;
+  --primary-light: #d2ecf9;
+  --accent: #1891ac;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-size: 12pt;
+  background-color: var(--primary-light);
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 1;
+  height: 120px;
+}
+
+#image-div {
+  background-color: var(--primary-dark);
+  background-image: url(assets/battleship-header-bg.jpeg);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  box-shadow: 0px 1px 10px 1px var(--primary);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#logo {
+  height: 100%;
+  padding: 10px;
+}
+
+section {
+  background-color: var(--primary-light);
+}
+
+#game-setup {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-dark);
+  border-radius: 5px;
+  width: 30%;
+  height: 300px;
+  margin: 5% auto;
+  box-shadow: 0px 0px 3px 1px var(--accent);
+}

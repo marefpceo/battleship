@@ -1,8 +1,5 @@
-import { Ship } from './ships';
+import { initialPageLoad, gameSetup } from './pagelayout';
+import './style.css';
 
-let testShip = Ship(5);
-
-testShip.hit();
-testShip.hit();
-
-console.log(testShip);
+initialPageLoad();
+gameSetup();
