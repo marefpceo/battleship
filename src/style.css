@@ -3,6 +3,12 @@
   --primary-dark: #253b6e;
   --primary-light: #d2ecf9;
   --accent: #1891ac;
+  --font-main: VT323;
+}
+
+@font-face {
+  font-family: VT323;
+  src: url(assets/VT323-Regular.ttf);
 }
 
 * {
@@ -50,10 +56,21 @@ section {
 #game-setup {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: var(--primary-dark);
   border-radius: 5px;
   width: 30%;
   height: 300px;
   margin: 5% auto;
+  padding: 15px;
   box-shadow: 0px 0px 3px 1px var(--accent);
+  color: var(--primary-light);
+  font-size: 2rem;
+  font-family: var(--font-main);
+}
+
+#player1-info {
+  display: flex;
+  justify-content: space-between;
 }

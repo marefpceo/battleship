@@ -34,6 +34,10 @@ const gameSetup = () => {
   gameSetupDiv.id = 'game-setup';
   player1Info.id = 'player1-info';
 
+  player1Info.innerHTML = '<div>Player 1</div>';
+  
+  gameSetupDiv.appendChild(player1Info);
+
   sectionDiv.appendChild(gameSetupDiv);
 }
 
