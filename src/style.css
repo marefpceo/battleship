@@ -57,7 +57,7 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   background-color: var(--primary-dark);
   border-radius: 5px;
   width: 30%;
@@ -72,5 +72,25 @@ section {
 
 #player1-info {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  width: 80%;
+}
+
+#player1-info input {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-family: var(--font-main);
+  font-size: 1.8rem;
+  border-radius: 5px;
+  width: 40%;
+}
+
+#start-btn {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-family: var(--font-main);
+  font-size: 1.5rem;
+  border-radius: 5px;
+  width: 80px;
+  height: auto;
 }

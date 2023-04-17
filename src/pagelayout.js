@@ -30,14 +30,25 @@ const header = () => {
 const gameSetup = () => {
   const gameSetupDiv = document.createElement('div');
   const player1Info = document.createElement('div');
+  const nameInputP1 = document.createElement('input');
+  const startBtn = document.createElement('button');
+
+  nameInputP1.type = 'text';
+  nameInputP1.id = 'name';
+  nameInputP1.name = 'name';
+  nameInputP1.placeholder = 'Name';  
+
+  startBtn.id = 'start-btn';
+  startBtn.innerText = 'Start';
 
   gameSetupDiv.id = 'game-setup';
   player1Info.id = 'player1-info';
 
   player1Info.innerHTML = '<div>Player 1</div>';
+  player1Info.appendChild(nameInputP1);
   
   gameSetupDiv.appendChild(player1Info);
-
+  gameSetupDiv.appendChild(startBtn);
   sectionDiv.appendChild(gameSetupDiv);
 }
 
