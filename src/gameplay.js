@@ -1,3 +1,4 @@
+import { drawShips } from './pagelayout';
 import { Player, Computer } from './player';
 
 const ships = [['carrier', 5, 'A', 4, true], ['battleship', 4, 'E', 7, false], 
@@ -7,9 +8,11 @@ const ships = [['carrier', 5, 'A', 4, true], ['battleship', 4, 'E', 7, false],
 const startGame = () => {
   const startBtn = document.getElementById('start-btn');
   const gameSetupDiv = document.getElementById('game-setup');
+  const boardContainer = document.getElementById('board-container');
 
   startBtn.addEventListener('click', () => {
     gameSetupDiv.style.display = 'none';
+    boardContainer.style.display = 'flex';
     gameLoop();
   });
 }
@@ -20,7 +23,7 @@ const gameLoop = () => {
 
   player1.gameboard.createShips(ships);
   computer.gameboard.createShips(ships);
-  console.log(player1);
+  console.log(drawShips(player1.gameboard.list));
   console.log(computer);
 }
 
