@@ -54,7 +54,7 @@ section {
 }
 
 #game-setup {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
@@ -80,7 +80,7 @@ section {
   background-color: var(--primary-light);
   color: var(--primary-dark);
   font-family: var(--font-main);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   border-radius: 5px;
   width: 40%;
 }
@@ -93,4 +93,40 @@ section {
   border-radius: 5px;
   width: 80px;
   height: auto;
+}
+
+.board {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.ships {
+  width: 150px;
+  height: 200px;
+  background-color: var(--primary);
+  border: 2px solid var(--primary-light);
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 2px var(--primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  width: 400px;
+  height: 400px;
+  background-color: var(--primary-light);
+  border-radius: 5px;
+  border: 4px solid var(--accent);
+  box-shadow: 0px 0px 5px 2px var(--primary);
+}
+
+#board-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10%;
+}
+
+.square {
+  border: 1px solid var(--accent);
 }

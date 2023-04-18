@@ -1,7 +1,7 @@
 import { Gameboard } from './gameboard';
 
 const Player = () => {
-  const gameboard = new Gameboard();
+  const gameboard = Gameboard();
 
   const attack = (coord, enemy) => {
     return enemy.receiveAttack(coord);

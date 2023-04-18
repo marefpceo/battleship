@@ -37,7 +37,7 @@ const Gameboard = () => {
 
   const createShips = (ships) =>{
     for (let i = 0; i < ships.length; i++) {
-      let ship = new Ship(ships[i][1]);
+      let ship = Ship(ships[i][1]);
       startPosition(ships[i][2], ships[i][3]);
       ship.name = ships[i][0];
       ship.position = shipPosition(ships[i][4], ship.length);

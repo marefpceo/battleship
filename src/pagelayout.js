@@ -52,6 +52,47 @@ const gameSetup = () => {
   sectionDiv.appendChild(gameSetupDiv);
 }
 
+const drawGrid = (gridType) => {
+  for (let i = 0; i < 100; i++) {
+    const squareDiv = document.createElement('div');
+    squareDiv.style.backgroundColor = '#d2ecf9';
+    squareDiv.className = 'square';
+    gridType.appendChild(squareDiv);
+  }
+}
+
+const boardSetup = () => {
+  const boardDiv = document.createElement('div');
+  const playerBoard = document.createElement('div');
+  const computerBoard = document.createElement('div');
+  const playerShips = document.createElement('div');
+  const computerShips = document.createElement('div');
+  const playerGridDiv = document.createElement('div');
+  const computerGridDiv = document.createElement('div');
+
+  drawGrid(playerGridDiv);
+  drawGrid(computerGridDiv);
+
+  boardDiv.id = 'board-container';
+
+  playerBoard.classList = 'board';
+  playerShips.classList = 'ships';
+  playerGridDiv.classList = 'grid';
+
+  computerBoard.classList = 'board';
+  computerShips.classList = 'ships';
+  computerGridDiv.classList = 'grid';
+
+  playerBoard.appendChild(playerShips);
+  playerBoard.appendChild(playerGridDiv);
+  computerBoard.appendChild(computerGridDiv);
+  computerBoard.appendChild(computerShips);
+
+  boardDiv.appendChild(playerBoard);
+  boardDiv.appendChild(computerBoard);
+  sectionDiv.appendChild(boardDiv);
+}
+
 
 const initialPageLoad = () => {
   containerDiv();
@@ -60,4 +101,4 @@ const initialPageLoad = () => {
 }
 
 
-export { initialPageLoad, gameSetup }
+export { initialPageLoad, gameSetup, boardSetup }
