@@ -9,7 +9,6 @@ const containerDiv = () => {
   content.appendChild(container);
 }
 
-
 const header = () => {
   const header = document.createElement('header');
   const imgDiv = document.createElement('div');
@@ -93,12 +92,10 @@ const boardSetup = () => {
   sectionDiv.appendChild(boardDiv);
 }
 
-
 const initialPageLoad = () => {
   containerDiv();
   header();
   container.appendChild(sectionDiv);
 }
-
 
 export { initialPageLoad, gameSetup, boardSetup }
