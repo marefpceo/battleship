@@ -23,7 +23,7 @@ const gameLoop = () => {
 
   player1.gameboard.createShips(ships);
   computer.gameboard.createShips(ships);
-  console.log(drawShips(player1.gameboard.list));
+  drawShips(player1.gameboard.list);
   console.log(computer);
 }
 

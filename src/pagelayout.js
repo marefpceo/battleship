@@ -1,5 +1,14 @@
 import battleshipLogo from './assets/battleship-logo.svg';
 
+const cache = {};
+
+function importAll(r) {
+  r.keys().forEach((key) => (cache[key.replace('./', '')] = r(key)));
+}
+
+// eslint-disable-next-line no-undef
+importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
+
 const content = document.getElementById('content');
 const container = document.createElement('div');
 const sectionDiv = document.createElement('section');
@@ -51,15 +60,25 @@ const gameSetup = () => {
   sectionDiv.appendChild(gameSetupDiv);
 }
 
+const shipIcons = ['aircraft-carrier-gray.svg', 'battleship-gray.svg', 'cruiser-gray.svg',
+  'destroyer-gray.svg', 'sub-gray.svg'];
+
+const shipStatusIcons = (player) => {
+  for (let i = 0; i < shipIcons.length; i++) {
+    const img = document.createElement('img');
+    img.src = cache[shipIcons[i]];
+    player.appendChild(img);
+  }
+}
+
 const drawGrid = (gridType) => {
   const colLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < colLabels.length; j++) {
       const squareDiv = document.createElement('div');
-    squareDiv.style.backgroundColor = '#d2ecf9';
-    squareDiv.className = 'square';
-    squareDiv.id = `${colLabels[j]}-${i + 1}`;
-    gridType.appendChild(squareDiv);
+      squareDiv.className = 'square';
+      squareDiv.id = `${colLabels[j]}-${i + 1}`;
+      gridType.appendChild(squareDiv);
     }
   }
 }
@@ -70,8 +89,8 @@ const drawShips = (shipList) => {
     for (let j = 0; j < positionList.length; j++) {
       let coord = `${positionList[j][0]}-${positionList[j][1]}`;
       const gridId = document.getElementById(coord);
-      gridId.style.backgroundColor = '#000000';
-      gridId.style.border = 'none';
+      gridId.style.backgroundColor = '#84898c';
+      gridId.style.border = '0px';
     }
   }
 }
@@ -91,12 +110,15 @@ const boardSetup = () => {
   boardDiv.id = 'board-container';
 
   playerBoard.classList = 'board';
-  playerShips.classList = 'ships';
+  playerShips.id = 'player-ships';
   playerGridDiv.id = 'player-grid';
 
   computerBoard.classList = 'board';
-  computerShips.classList = 'ships';
+  computerShips.id = 'computer-ships';
   computerGridDiv.id = 'computer-grid';
+
+  shipStatusIcons(playerShips);
+  shipStatusIcons(computerShips);
 
   playerBoard.appendChild(playerShips);
   playerBoard.appendChild(playerGridDiv);

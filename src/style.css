@@ -97,17 +97,26 @@ section {
 
 .board {
   display: flex;
-  justify-content: space-between;
-  gap: 50px;
+  justify-content: space-evenly;
 }
 
-.ships {
-  width: 150px;
-  height: 200px;
+#player-ships,
+#computer-ships {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%;
+  height: 75%;
   background-color: var(--primary);
   border: 2px solid var(--primary-light);
   border-radius: 5px;
   box-shadow: 0px 0px 3px 2px var(--primary);
+}
+
+#player-ships img,
+#computer-ships img {
+  width: 70%;
+  padding: 10px;
 }
 
 #player-grid,
@@ -130,4 +139,12 @@ section {
 
 .square {
   border: 1px solid var(--accent);
+}
+
+#computer-grid .square {
+  background-color: var(--primary-dark);
+}
+
+#computer-grid .square:hover {
+  background-color: var(--primary);
 }
