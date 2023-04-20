@@ -5,6 +5,7 @@ const Gameboard = () => {
   let isVertical = true;
   let shipList = [];
   let missedAttacks = [];
+  let attackHits = [];
   
   const startPosition = (column, row) => {
     startCoord = [column, row];
@@ -53,6 +54,7 @@ const Gameboard = () => {
         let isSubset = strikeCoord.every((element) => current[j].includes(element));
         if (isSubset === true) {
           shipList[i].hit();
+          attackHits.push(strikeCoord);
           return isSubset;
         }
       }
@@ -80,6 +82,9 @@ const Gameboard = () => {
     }, 
     get missed() {
       return missedAttacks;
+    },
+    get made() {
+      return attackHits;
     },
     startPosition,
     shipPosition,

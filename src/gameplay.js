@@ -35,6 +35,10 @@ const gameLoop = () => {
     let coord = [split[1], Number(split[2])];
     console.log(coord);
 
+    while (computer.verifyCoord(coord, computer.gameboard.missed, computer.gameboard.made)){
+      return;
+    }
+
     let playerResult = computer.gameboard.receiveAttack(coord);
     if (playerResult === true) {
       document.getElementById(divId).style.backgroundImage = 'url(assets/explosion.svg)';
@@ -44,11 +48,14 @@ const gameLoop = () => {
     compGrid.style.pointerEvents = 'none';
 
     setTimeout(() => {
-      let computerResult = computer.attack(player1.gameboard, player1.gameboard.missed);
+      let computerResult = computer.attack(player1.gameboard, player1.gameboard.missed, player1.gameboard.made);
     
-      if (computerResult === true) {
+      if (computerResult[0] === true) {
+
+        document.getElementById(`p-${computerResult[1][0]}-${computerResult[1][1]}`).style.backgroundImage = 'url(assets/explosion.svg)';
         console.log(computerResult);
       } else {
+        document.getElementById(`p-${computerResult[1][0]}-${computerResult[1][1]}`).style.backgroundColor = '#253b6e';
         console.log(computerResult);
       }
       compGrid.style.pointerEvents = 'auto';
