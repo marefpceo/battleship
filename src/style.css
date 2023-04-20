@@ -139,6 +139,7 @@ section {
 
 .square {
   border: 1px solid var(--accent);
+  background-size: contain;
 }
 
 #computer-grid .square {

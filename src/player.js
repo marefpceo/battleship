@@ -20,9 +20,9 @@ const Computer = () => {
     return [row, col] 
   }
 
-  function verifyCoord(coord, enemyCoord) {
-    for (let i = 0; i < enemyCoord.length; i++) {
-      let current = enemyCoord;
+  function verifyCoord(coord, enemyCoordMissed) {
+    for (let i = 0; i < enemyCoordMissed.length; i++) {
+      let current = enemyCoordMissed;
       for (let j = 0; j < current.length; j++) {
         let isSubset = coord.every((element) => current[j].includes(element));
         if (isSubset === true) {
@@ -33,10 +33,10 @@ const Computer = () => {
     return false;
   }
     
-  const attack = (enemy, enemyCoord) => {
+  const attack = (enemy, enemyCoordMissed) => {
     let coord = generateCoord();
 
-    while(verifyCoord(coord, enemyCoord)) {
+    while(verifyCoord(coord, enemyCoordMissed)) {
       coord = generateCoord();
     }
     return enemy.receiveAttack(coord);

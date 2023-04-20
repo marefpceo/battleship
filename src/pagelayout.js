@@ -77,7 +77,7 @@ const drawGrid = (gridType) => {
     for (let j = 0; j < colLabels.length; j++) {
       const squareDiv = document.createElement('div');
       squareDiv.className = 'square';
-      squareDiv.id = `${colLabels[j]}-${i + 1}`;
+      squareDiv.id = `${gridType.id.charAt(0)}-${colLabels[j]}-${i + 1}`;
       gridType.appendChild(squareDiv);
     }
   }
@@ -87,7 +87,7 @@ const drawShips = (shipList) => {
   for (let i = 0; i < shipList.length; i++) {
     let positionList = shipList[i].position;
     for (let j = 0; j < positionList.length; j++) {
-      let coord = `${positionList[j][0]}-${positionList[j][1]}`;
+      let coord = `p-${positionList[j][0]}-${positionList[j][1]}`;
       const gridId = document.getElementById(coord);
       gridId.style.backgroundColor = '#84898c';
       gridId.style.border = '0px';
@@ -104,9 +104,6 @@ const boardSetup = () => {
   const playerGridDiv = document.createElement('div');
   const computerGridDiv = document.createElement('div');
 
-  drawGrid(playerGridDiv);
-  drawGrid(computerGridDiv);
-
   boardDiv.id = 'board-container';
 
   playerBoard.classList = 'board';
@@ -116,6 +113,9 @@ const boardSetup = () => {
   computerBoard.classList = 'board';
   computerShips.id = 'computer-ships';
   computerGridDiv.id = 'computer-grid';
+
+  drawGrid(playerGridDiv, playerGridDiv.id);
+  drawGrid(computerGridDiv, computerGridDiv.id);
 
   shipStatusIcons(playerShips);
   shipStatusIcons(computerShips);
