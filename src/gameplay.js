@@ -1,18 +1,16 @@
-import { drawShips } from './pagelayout';
+import { drawShips, gameOver } from './pagelayout';
 import { Player, Computer } from './player';
 import './assets/explosion.svg';
 
-
 const ships = [['carrier', 5, 'A', 4, true], ['battleship', 4, 'E', 7, false], 
 ['cruiser', 3, 'C', 4, false], ['destroyer', 3, 'I', 2, true], 
-['submarine', 2, 'J', 9, true]];
-
-let inProgress = false;
+['sub', 2, 'J', 9, true]];
 
 const startGame = () => {
   const startBtn = document.getElementById('start-btn');
   const gameSetupDiv = document.getElementById('game-setup');
   const boardContainer = document.getElementById('board-container');
+
   startBtn.addEventListener('click', () => {
     gameSetupDiv.style.display = 'none';
     boardContainer.style.display = 'flex';
@@ -20,11 +18,39 @@ const startGame = () => {
   });
 }
 
+const restartGame = () => {
+  document.getElementById('game-over').remove();
+  document.getElementById('board-container').remove();
+  document.getElementById('game-setup').remove();
+}
+
 const gameLoop = () => {
   const player1 = Player();
   const computer = Computer();
   const compGrid = document.getElementById('computer-grid');
-  
+
+  let sunkResult;
+  let allSunk;
+
+  function gameTurn(enemy) {
+    let winner = enemy === player1 ? 'computer' : 'player1'; 
+    let initial = enemy.name.charAt(0);
+    console.log(winner);
+
+    sunkResult = enemy.gameboard.sunkenShips();
+    allSunk = enemy.gameboard.allShipsSunk();
+
+    if (sunkResult !== undefined) {
+      document.getElementById(`${initial}-${sunkResult}`).src = `./assets/${sunkResult}-red.svg`;
+    }
+
+    if (allSunk === true) {
+      document.getElementById('board-container').style.display = 'none';
+      gameOver(winner);
+      document.getElementById('game-over').style.display = 'flex';
+    }
+  }
+
   player1.gameboard.createShips(ships);
   computer.gameboard.createShips(ships);
   drawShips(player1.gameboard.list);
@@ -45,23 +71,25 @@ const gameLoop = () => {
     } else {
       document.getElementById(divId).style.backgroundColor = '#d2ecf9';
     }
+
+    gameTurn(computer);
+
     compGrid.style.pointerEvents = 'none';
 
     setTimeout(() => {
       let computerResult = computer.attack(player1.gameboard, player1.gameboard.missed, player1.gameboard.made);
     
       if (computerResult[0] === true) {
-
         document.getElementById(`p-${computerResult[1][0]}-${computerResult[1][1]}`).style.backgroundImage = 'url(assets/explosion.svg)';
-        console.log(computerResult);
       } else {
         document.getElementById(`p-${computerResult[1][0]}-${computerResult[1][1]}`).style.backgroundColor = '#253b6e';
-        console.log(computerResult);
       }
+
+      gameTurn(player1);
+
       compGrid.style.pointerEvents = 'auto';
-    }, 3000);
+    }, 1000);
   });
 }
 
-
-export { startGame }
+export { startGame, restartGame, gameLoop }

@@ -1,4 +1,5 @@
 import battleshipLogo from './assets/battleship-logo.svg';
+import { restartGame, gameLoop } from './gameplay';
 
 const cache = {};
 
@@ -60,12 +61,13 @@ const gameSetup = () => {
   sectionDiv.appendChild(gameSetupDiv);
 }
 
-const shipIcons = ['aircraft-carrier-gray.svg', 'battleship-gray.svg', 'cruiser-gray.svg',
+const shipIcons = ['carrier-gray.svg', 'battleship-gray.svg', 'cruiser-gray.svg',
   'destroyer-gray.svg', 'sub-gray.svg'];
 
 const shipStatusIcons = (player) => {
   for (let i = 0; i < shipIcons.length; i++) {
     const img = document.createElement('img');
+    img.id = `${player.id.charAt(0)}-${shipIcons[i].split('-')[0]}`;
     img.src = cache[shipIcons[i]];
     player.appendChild(img);
   }
@@ -93,6 +95,62 @@ const drawShips = (shipList) => {
       gridId.style.border = '0px';
     }
   }
+}
+
+const gameOver = (name) => {
+  const gameOverModal = document.createElement('div');
+  const gameOverHeader = document.createElement('div');
+  const gameOverBody = document.createElement('div');
+  const gameOverFooter = document.createElement('div');
+  const restartBtn = document.createElement('button');
+  const quitBtn = document.createElement('button');
+
+  let winner = name === 'player1' ? 'Player 1' : 'Computer';
+  let loser;
+
+  if (winner === 'Player 1') {
+    loser = 'Computer';
+  } else if(winner === 'Computer') {
+    loser = 'Player 1';
+  }
+
+restartBtn.addEventListener('click', () => {
+  restartGame();
+  // initialPageLoad();
+  boardSetup();
+  document.getElementById('board-container').style.display = 'flex';
+  // gameSetup();
+  gameLoop();
+});
+
+quitBtn.addEventListener('click', () => {
+  window.location.href = 'https://www.google.com';
+});
+
+  gameOverModal.id = 'game-over';
+
+  gameOverHeader.innerHTML = `<h2>Game Over</>`;
+  gameOverBody.innerHTML = `<p>${winner}'s fleet was victorious over ${loser}!</p>`;
+
+  restartBtn.name = 'restart';
+  restartBtn.id = 'restart-btn';
+  restartBtn.type = 'button';
+  restartBtn.autofocus = true;
+  restartBtn.innerText = 'Play Again?';
+
+  quitBtn.name = 'quit';
+  quitBtn.id = 'quit-btn';
+  quitBtn.type = 'button';
+  quitBtn.innerText = 'Quit';
+
+  
+  gameOverFooter.appendChild(restartBtn);
+  gameOverFooter.appendChild(quitBtn);
+
+  gameOverModal.appendChild(gameOverHeader);
+  gameOverModal.appendChild(gameOverBody);
+  gameOverModal.appendChild(gameOverFooter);
+  sectionDiv.appendChild(gameOverModal);
 }
 
 const boardSetup = () => {
@@ -136,4 +194,4 @@ const initialPageLoad = () => {
   container.appendChild(sectionDiv);
 }
 
-export { initialPageLoad, gameSetup, boardSetup, drawShips }
+export { initialPageLoad, gameSetup, boardSetup, drawShips, gameOver }

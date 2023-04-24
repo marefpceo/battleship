@@ -2,17 +2,17 @@ import { Gameboard } from './gameboard';
 
 const Player = () => {
   const gameboard = Gameboard();
-
+  const name = 'player1';
   const attack = (coord, enemy) => {
     return enemy.receiveAttack(coord);
   }
-
-  return {attack, gameboard}
+  return {attack, gameboard, name}
 }
 
 
 const Computer = () => {
   const {gameboard} = Player();
+  const name = 'computer';
 
   function generateCoord() {
     const row = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
@@ -42,9 +42,7 @@ const Computer = () => {
     }
     return [enemy.receiveAttack(coord), coord];
   }
-
-  return {attack, verifyCoord, gameboard};
+  return {attack, verifyCoord, gameboard, name};
 }
-
 
 export { Player, Computer };

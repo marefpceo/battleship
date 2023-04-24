@@ -53,7 +53,8 @@ section {
   background-color: var(--primary-light);
 }
 
-#game-setup {
+#game-setup,
+#game-over {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +62,7 @@ section {
   background-color: var(--primary-dark);
   border-radius: 5px;
   width: 30%;
-  height: 300px;
+  height: 200px;
   margin: 5% auto;
   padding: 15px;
   box-shadow: 0px 0px 3px 1px var(--accent);
@@ -85,7 +86,7 @@ section {
   width: 40%;
 }
 
-#start-btn {
+button {
   background-color: var(--primary-light);
   color: var(--primary-dark);
   font-family: var(--font-main);
@@ -148,4 +149,34 @@ section {
 
 #computer-grid .square:hover {
   background-color: var(--primary);
+}
+
+#game-over {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  z-index: 50;
+}
+
+#game-over h2 {
+  margin: 5px 0;
+}
+
+#game-over p {
+  text-align: center;
+}
+
+#game-over :nth-child(3) {
+  display: flex;
+  justify-content: space-around;
+  padding: 15px 0;
+  width: 100%;
+}
+
+#quit-btn,
+#restart-btn {
+  width: 150px;
+  height: 30px;
 }

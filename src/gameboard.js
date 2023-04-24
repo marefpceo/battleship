@@ -6,6 +6,7 @@ const Gameboard = () => {
   let shipList = [];
   let missedAttacks = [];
   let attackHits = [];
+  let shipsLeft = [];
   
   const startPosition = (column, row) => {
     startCoord = [column, row];
@@ -43,6 +44,7 @@ const Gameboard = () => {
       ship.name = ships[i][0];
       ship.position = shipPosition(ships[i][4], ship.length);
       shipList.push(ship);
+      shipsLeft.push(ship);
     }
     return shipList;
   }
@@ -54,6 +56,7 @@ const Gameboard = () => {
         let isSubset = strikeCoord.every((element) => current[j].includes(element));
         if (isSubset === true) {
           shipList[i].hit();
+          shipList[i].isSunk();
           attackHits.push(strikeCoord);
           return isSubset;
         }
@@ -63,13 +66,23 @@ const Gameboard = () => {
     return false;
   }
 
-  const allShipsSunk = (shipList) => {
-    for (let i = 0; i < shipList.length; i++) {
-      if (shipList[i].sunkStatus === false){
-        return false;
-      } else {
-        return true;
-      }
+  const sunkenShips = () => {
+    for (let i = 0; i < shipsLeft.length; i++) {
+      if (shipsLeft[i].sunkStatus === true) {
+        let name = shipsLeft[i].name;
+        shipsLeft.splice(i,1);
+        return name;
+      } 
+    }
+  }
+
+  const allShipsSunk = () => {
+    const found = shipList.find(element => element.sunkStatus === false);
+
+    if (found) {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -80,6 +93,9 @@ const Gameboard = () => {
     get list() {
       return shipList;
     }, 
+    get remaining() {
+      return shipsLeft;
+    },
     get missed() {
       return missedAttacks;
     },
@@ -90,6 +106,7 @@ const Gameboard = () => {
     shipPosition,
     createShips,
     receiveAttack,
+    sunkenShips,
     allShipsSunk
   }
 }

@@ -43,17 +43,18 @@ describe('Test player functions', () => {
   });
 
   describe('Computer makes random attack on player', () => {
+    let randomResult = [expect.any(Boolean)];
     test('computer generates random coordinates for attack', () => {
-      expect(computer.attack(player.gameboard, player.gameboard.missed)).toEqual(expect.any(Boolean));
+      expect(computer.attack(player.gameboard, player.gameboard.missed, player.gameboard.made)).toEqual(expect.arrayContaining(randomResult));
     });
 
     test('computer attack at player [E, 5] returns false', () => {
-      expect(computer.verifyCoord(['E',5], player.gameboard.missed)).toBe(false);
+      expect(computer.verifyCoord(['E',5], player.gameboard.missed, player.gameboard.made)).toBe(false);
     });
 
     test('computer duplicate attack at player [A, 1] returns true', () => {
       player.gameboard.missed.push(['A', 1]);
-      expect(computer.verifyCoord(['A', 1], player.gameboard.missed)).toBe(true);
+      expect(computer.verifyCoord(['A', 1], player.gameboard.missed, player.gameboard.made)).toBe(true);
     });
   });
 });
