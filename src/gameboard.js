@@ -1,5 +1,11 @@
 import { Ship } from './ships';
 
+const ships = [{name: 'carrier', size: 5, row: 'A', col: 4, isVertical: true}, 
+  {name: 'battleship', size: 4, row: 'E', col: 7, isVertical: false}, 
+{name: 'cruiser', size: 3, row: 'C', col: 4, isVertical: false}, 
+{name: 'destroyer', size: 3, row: 'I', col: 2, isVertical: true}, 
+{name: 'sub', size: 2, row: 'J', col: 9, isVertical: true}];
+
 const Gameboard = () => {
   let startCoord = [];
   let isVertical = true;
@@ -10,9 +16,9 @@ const Gameboard = () => {
   
   const startPosition = (column, row) => {
     startCoord = [column, row];
-    return startCoord;
-  } 
-
+          return startCoord;
+        }
+        
   const shipPosition = (orientation, shipLenth) => {
     let xVal = startCoord[0];
     let yVal = startCoord[1];
@@ -37,14 +43,44 @@ const Gameboard = () => {
     return shipCoord;
   }
 
-  const createShips = (ships) =>{
+  // function generateCoord() {
+  //   const row = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
+  //   const col = Math.floor(Math.random() * (10 - 1 + 1) + 1);
+  //   return [row, col] 
+  // }
+
+  function randomCol(size, isVertical) {
+    let col;
+    if (isVertical === false) {
+      col = String.fromCharCode(Math.floor(Math.random() * ((74 - size)- 65 + 1) + 65));
+    } else {
+      col = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
+    }
+    return col;
+  }
+
+  function randomRow(size, isVertical) {
+    let row;
+    if (isVertical === false) {
+      row = Math.floor(Math.random() * (10 - 1 + 1) + 1);
+    } else {
+      row = Math.floor(Math.random() * ((10 - size) - 1 + 1) + 1);
+    }
+    return row;
+  }
+  
+  const createShips = () =>{
     for (let i = 0; i < ships.length; i++) {
-      let ship = Ship(ships[i][1]);
-      startPosition(ships[i][2], ships[i][3]);
-      ship.name = ships[i][0];
-      ship.position = shipPosition(ships[i][4], ship.length);
+      let ship = Ship(ships[i].size);
+      let check = startPosition(randomCol(ships[i].size, ships[i].isVertical), randomRow(ships[i].size, ships[i].isVertical));
+      while (check === true) {
+        check = startPosition(randomCol(ships[i].size, ships[i].isVertical), randomRow(ships[i].size, ships[i].isVertical));
+      }
+      ship.name = ships[i].name;
+      ship.position = shipPosition(ships[i].isVertical, ships[i].size);
       shipList.push(ship);
       shipsLeft.push(ship);
+      console.log(ship);
     }
     return shipList;
   }

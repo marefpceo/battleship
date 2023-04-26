@@ -51,8 +51,8 @@ const gameLoop = () => {
     }
   }
 
-  player1.gameboard.createShips(ships);
-  computer.gameboard.createShips(ships);
+  player1.gameboard.createShips();
+  computer.gameboard.createShips();
   drawShips(player1.gameboard.list);
 
   compGrid.addEventListener('click', (e) => {
