@@ -2,10 +2,6 @@ import { drawShips, gameOver } from './pagelayout';
 import { Player, Computer } from './player';
 import './assets/explosion.svg';
 
-const ships = [['carrier', 5, 'A', 4, true], ['battleship', 4, 'E', 7, false], 
-['cruiser', 3, 'C', 4, false], ['destroyer', 3, 'I', 2, true], 
-['sub', 2, 'J', 9, true]];
-
 const startGame = () => {
   const startBtn = document.getElementById('start-btn');
   const gameSetupDiv = document.getElementById('game-setup');
@@ -35,7 +31,6 @@ const gameLoop = () => {
   function gameTurn(enemy) {
     let winner = enemy === player1 ? 'computer' : 'player1'; 
     let initial = enemy.name.charAt(0);
-    console.log(winner);
 
     sunkResult = enemy.gameboard.sunkenShips();
     allSunk = enemy.gameboard.allShipsSunk();
@@ -59,7 +54,6 @@ const gameLoop = () => {
     const divId = e.target.id;
     let split = divId.split('-');
     let coord = [split[1], Number(split[2])];
-    console.log(coord);
 
     while (computer.verifyCoord(coord, computer.gameboard.missed, computer.gameboard.made)){
       return;
