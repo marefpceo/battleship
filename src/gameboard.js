@@ -64,7 +64,6 @@ const Gameboard = () => {
       let current = coord[i];
       for (let j = 0; j < gamePieceList.length; j++) {
         let isSubset = current.every((element) => gamePieceList[j].includes(element));
-        console.log(isSubset);
         if (isSubset === true) {
           return true;
         }
