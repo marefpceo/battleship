@@ -2,9 +2,9 @@ import { Ship } from './ships';
 
 const ships = [{name: 'carrier', size: 5, row: 'A', col: 4, isVertical: true}, 
   {name: 'battleship', size: 4, row: 'E', col: 7, isVertical: false}, 
-{name: 'cruiser', size: 3, row: 'C', col: 4, isVertical: false}, 
-{name: 'destroyer', size: 3, row: 'I', col: 2, isVertical: true}, 
-{name: 'sub', size: 2, row: 'J', col: 9, isVertical: true}];
+  {name: 'cruiser', size: 3, row: 'C', col: 4, isVertical: false}, 
+  {name: 'destroyer', size: 3, row: 'I', col: 2, isVertical: true}, 
+  {name: 'sub', size: 2, row: 'J', col: 9, isVertical: true}];
 
 const Gameboard = () => {
   let startCoord = [];
@@ -13,12 +13,28 @@ const Gameboard = () => {
   let missedAttacks = [];
   let attackHits = [];
   let shipsLeft = [];
+  let gamePieceList = [];
   
-  const startPosition = (column, row) => {
-    startCoord = [column, row];
-          return startCoord;
-        }
-        
+  function randomCol(size, isVertical) {
+    let col;
+    if (isVertical === false) {
+      col = String.fromCharCode(Math.floor(Math.random() * ((74 - size)- 65 + 1) + 65));
+    } else {
+      col = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
+    }
+    return col;
+  }
+
+  function randomRow(size, isVertical) {
+    let row;
+    if (isVertical === false) {
+      row = Math.floor(Math.random() * (10 - 1 + 1) + 1);
+    } else {
+      row = Math.floor(Math.random() * ((10 - size) - 1 + 1) + 1);
+    }
+    return row;
+  }
+
   const shipPosition = (orientation, shipLenth) => {
     let xVal = startCoord[0];
     let yVal = startCoord[1];
@@ -43,44 +59,47 @@ const Gameboard = () => {
     return shipCoord;
   }
 
-  // function generateCoord() {
-  //   const row = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
-  //   const col = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-  //   return [row, col] 
-  // }
-
-  function randomCol(size, isVertical) {
-    let col;
-    if (isVertical === false) {
-      col = String.fromCharCode(Math.floor(Math.random() * ((74 - size)- 65 + 1) + 65));
-    } else {
-      col = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
+  function positionCheck(coord) {
+    for (let i = 0; i < coord.length; i++) {
+      let current = coord[i];
+      for (let j = 0; j < gamePieceList.length; j++) {
+        let isSubset = current.every((element) => gamePieceList[j].includes(element));
+        console.log(isSubset);
+        if (isSubset === true) {
+          return true;
+        }
+      }
     }
-    return col;
+    return false;
   }
 
-  function randomRow(size, isVertical) {
-    let row;
-    if (isVertical === false) {
-      row = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-    } else {
-      row = Math.floor(Math.random() * ((10 - size) - 1 + 1) + 1);
-    }
-    return row;
-  }
-  
   const createShips = () =>{
     for (let i = 0; i < ships.length; i++) {
       let ship = Ship(ships[i].size);
-      let check = startPosition(randomCol(ships[i].size, ships[i].isVertical), randomRow(ships[i].size, ships[i].isVertical));
-      while (check === true) {
-        check = startPosition(randomCol(ships[i].size, ships[i].isVertical), randomRow(ships[i].size, ships[i].isVertical));
-      }
+      let col = randomCol(ships[i].size, ships[i].isVertical);
+      let row = randomRow(ships[i].size, ships[i].isVertical);
+      let positionTemp;
+
+      startCoord = [col, row];
       ship.name = ships[i].name;
-      ship.position = shipPosition(ships[i].isVertical, ships[i].size);
+      positionTemp = shipPosition(ships[i].isVertical, ships[i].size);
+
+      if (i > 0) {
+        let match = positionCheck(positionTemp);
+
+        while (match) {
+          col = randomCol(ships[i].size, ships[i].isVertical);
+          row = randomRow(ships[i].size, ships[i].isVertical);
+          startCoord = [col, row];
+          positionTemp = shipPosition(ships[i].isVertical, ships[i].size);
+          match = positionCheck(positionTemp);
+        }
+      }
+
+      ship.position = positionTemp;
+      gamePieceList = gamePieceList.concat(ship.position);
       shipList.push(ship);
       shipsLeft.push(ship);
-      console.log(ship);
     }
     return shipList;
   }
@@ -138,7 +157,6 @@ const Gameboard = () => {
     get made() {
       return attackHits;
     },
-    startPosition,
     shipPosition,
     createShips,
     receiveAttack,
