@@ -13,6 +13,8 @@ const Player = () => {
 const Computer = () => {
   const {gameboard} = Player();
   const name = 'computer';
+  let lastHit = [];
+  let smartSelection = [];
 
   function generateCoord() {
     const col = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
@@ -33,14 +35,48 @@ const Computer = () => {
     }
     return false;
   }
+
+  function smartAttack() {
+    if (smartSelection.length === 0) {
+      smartSelection.push([String.fromCharCode(lastHit[0].charCodeAt(0) + 1), lastHit[1]]);
+      smartSelection.push([String.fromCharCode(lastHit[0].charCodeAt(0) - 1), lastHit[1]]);
+      smartSelection.push([lastHit[0], (lastHit[1] + 1)]);
+      smartSelection.push([lastHit[0], (lastHit[1] - 1)]);
+    }
+
+    let randomNum = Math.floor(Math.random() * smartSelection.length);
+    let nextMove = smartSelection[randomNum];
+    smartSelection.splice(randomNum, 1);
+
+    console.log(smartSelection);
+
+    return nextMove;
+  }
     
   const attack = (enemy, enemyCoordMissed, enemyCoordHits) => {
-    let coord = generateCoord();
+    let coord;
+
+    if (lastHit.length > 0 || smartSelection > 1) {
+      coord = smartAttack();
+      lastHit = coord;
+      // console.log(coord);
+    } else {
+      coord = generateCoord();
+    }
 
     while(verifyCoord(coord, enemyCoordMissed, enemyCoordHits)) {
       coord = generateCoord();
     }
-    return [enemy.receiveAttack(coord), coord];
+    
+    let attack = enemy.receiveAttack(coord);
+
+    lastHit = attack === true ? coord : [];
+    console.log(coord);
+    // if (attack === true) {
+    //   lastHit = coord;
+    // }
+
+    return [attack, coord];
   }
   return {attack, verifyCoord, gameboard, name};
 }
