@@ -13,6 +13,7 @@ importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
 const content = document.getElementById('content');
 const container = document.createElement('div');
 const sectionDiv = document.createElement('section');
+const boardDiv = document.createElement('div');
 
 const containerDiv = () => {
   container.className = 'container';
@@ -52,7 +53,7 @@ const gameSetup = () => {
   gameSetupDiv.id = 'game-setup';
 
   gameInfo.id = 'game-info';
-  gameInfo.innerHTML = '<p>Choose Gamepiece Locations</p>';
+  gameInfo.innerHTML = '<p>Gamepiece Layout</p>';
 
   gameButtonDiv.id = 'game-button';
 
@@ -64,7 +65,13 @@ const gameSetup = () => {
   sectionDiv.appendChild(gameSetupDiv);
 }
 
+const shipSelectModal = () => {
+  const shipSelectDiv = document.createElement('div');
 
+  shipSelectDiv.id = 'ship-select';
+
+  boardDiv.appendChild(shipSelectDiv);
+}
 
 const shipIcons = ['carrier-gray.svg', 'battleship-gray.svg', 'cruiser-gray.svg',
   'destroyer-gray.svg', 'sub-gray.svg'];
@@ -159,7 +166,7 @@ quitBtn.addEventListener('click', () => {
 }
 
 const boardSetup = () => {
-  const boardDiv = document.createElement('div');
+
   const playerBoard = document.createElement('div');
   const computerBoard = document.createElement('div');
   const playerShips = document.createElement('div');
@@ -199,4 +206,4 @@ const initialPageLoad = () => {
   container.appendChild(sectionDiv);
 }
 
-export { initialPageLoad, gameSetup, boardSetup, drawShips, gameOver }
+export { initialPageLoad, gameSetup, boardSetup, drawShips, gameOver, shipSelectModal }

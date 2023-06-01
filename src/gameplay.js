@@ -1,4 +1,4 @@
-import { drawShips, gameOver } from './pagelayout';
+import { drawShips, gameOver, shipSelectModal } from './pagelayout';
 import { Player, Computer } from './player';
 import './assets/explosion.svg';
 
@@ -23,6 +23,7 @@ const startGame = () => {
     playerShips.style.display = 'none';
     computerGrid.style.display = 'none';
     computerShips.style.display = 'none';
+    shipSelectModal();
   });
 }
 
