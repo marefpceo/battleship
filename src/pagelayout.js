@@ -67,8 +67,39 @@ const gameSetup = () => {
 
 const shipSelectModal = () => {
   const shipSelectDiv = document.createElement('div');
+  const selectHeader = document.createElement('div');
+  const selectBody = document.createElement('div');
+  const selectFooter = document.createElement('div');
 
   shipSelectDiv.id = 'ship-select';
+  selectHeader.id = 'select-header';
+  selectBody.id = 'select-body';
+  selectFooter.id = 'select-footer';
+
+  selectHeader.innerHTML = '<h2>Prepare your ships for battle!</h2>';  
+
+  for (let i = 1; i < 3; i++) {
+    const toggleDiv = document.createElement('div');
+    const input = document.createElement('input');
+    const label = document.createElement('label');
+
+    toggleDiv.className = 'toggle-div';
+    input.type = 'radio';
+    input.id = `position${i}`;
+    input.name = 'position-toggle';
+    input.checked = input.id === 'position1' ? true : false;
+    label.className = 'toggle-btn';
+    label.setAttribute('for', `position${i}`);
+    label.innerText = input.id === 'position1' ? 'Horizontal' : 'Vertical';
+    
+    toggleDiv.appendChild(input);
+    toggleDiv.appendChild(label);
+    selectBody.appendChild(toggleDiv);
+  }
+
+  shipSelectDiv.appendChild(selectHeader);
+  shipSelectDiv.appendChild(selectBody);
+  shipSelectDiv.appendChild(selectFooter);
 
   boardDiv.appendChild(shipSelectDiv);
 }
