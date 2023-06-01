@@ -83,6 +83,15 @@ section {
 #select-body {
   display: flex;
   justify-content: space-around;
+  height: 100%;
+  padding: 10px 0;
+}
+
+#select-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 20px 0;
 }
 
 .toggle-div {
