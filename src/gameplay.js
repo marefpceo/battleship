@@ -3,14 +3,26 @@ import { Player, Computer } from './player';
 import './assets/explosion.svg';
 
 const startGame = () => {
-  const startBtn = document.getElementById('start-btn');
+  const randomBtn = document.getElementById('random-btn');
+  const manualBtn = document.getElementById('manual-btn');
   const gameSetupDiv = document.getElementById('game-setup');
   const boardContainer = document.getElementById('board-container');
+  const computerGrid = document.getElementById('computer-grid');
+  const computerShips = document.getElementById('computer-ships');
+  const playerShips = document.getElementById('player-ships');
 
-  startBtn.addEventListener('click', () => {
+  randomBtn.addEventListener('click', () => {
     gameSetupDiv.style.display = 'none';
     boardContainer.style.display = 'flex';
     gameLoop();
+  });
+
+  manualBtn.addEventListener('click', () => {
+    gameSetupDiv.style.display = 'none';
+    boardContainer.style.display = 'flex';
+    playerShips.style.display = 'none';
+    computerGrid.style.display = 'none';
+    computerShips.style.display = 'none';
   });
 }
 

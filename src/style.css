@@ -71,19 +71,14 @@ section {
   font-family: var(--font-main);
 }
 
-#player1-info {
+#game-info p{
+  margin: 15px 0;
+}
+
+#game-button {
   display: flex;
   justify-content: space-around;
   width: 80%;
-}
-
-#player1-info input {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
-  font-family: var(--font-main);
-  font-size: 1.6rem;
-  border-radius: 5px;
-  width: 40%;
 }
 
 button {

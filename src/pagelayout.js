@@ -38,28 +38,33 @@ const header = () => {
 
 const gameSetup = () => {
   const gameSetupDiv = document.createElement('div');
-  const player1Info = document.createElement('div');
-  const nameInputP1 = document.createElement('input');
-  const startBtn = document.createElement('button');
+  const gameInfo = document.createElement('div');
+  const gameButtonDiv = document.createElement('div');
+  const randomBtn = document.createElement('button');
+  const manualBtn = document.createElement('button');
 
-  nameInputP1.type = 'text';
-  nameInputP1.id = 'name';
-  nameInputP1.name = 'name';
-  nameInputP1.placeholder = 'Name';  
-
-  startBtn.id = 'start-btn';
-  startBtn.innerText = 'Start';
+  randomBtn.id = 'random-btn';
+  randomBtn.innerText = 'Random';
+  
+  manualBtn.id = 'manual-btn';
+  manualBtn.innerText = 'Manual';
 
   gameSetupDiv.id = 'game-setup';
-  player1Info.id = 'player1-info';
 
-  player1Info.innerHTML = '<div>Player 1</div>';
-  player1Info.appendChild(nameInputP1);
+  gameInfo.id = 'game-info';
+  gameInfo.innerHTML = '<p>Choose Gamepiece Locations</p>';
+
+  gameButtonDiv.id = 'game-button';
+
+  gameButtonDiv.appendChild(manualBtn);
+  gameButtonDiv.appendChild(randomBtn);
   
-  gameSetupDiv.appendChild(player1Info);
-  gameSetupDiv.appendChild(startBtn);
+  gameSetupDiv.appendChild(gameInfo);
+  gameSetupDiv.appendChild(gameButtonDiv);
   sectionDiv.appendChild(gameSetupDiv);
 }
+
+
 
 const shipIcons = ['carrier-gray.svg', 'battleship-gray.svg', 'cruiser-gray.svg',
   'destroyer-gray.svg', 'sub-gray.svg'];
