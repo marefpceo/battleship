@@ -1,6 +1,7 @@
 import { drawShips, gameOver, shipSelectModal } from './pagelayout';
 import { Player, Computer } from './player';
 import './assets/explosion.svg';
+import { Gameboard } from './gameboard';
 
 const startGame = () => {
   const randomBtn = document.getElementById('random-btn');
@@ -14,7 +15,7 @@ const startGame = () => {
   randomBtn.addEventListener('click', () => {
     gameSetupDiv.style.display = 'none';
     boardContainer.style.display = 'flex';
-    gameLoop();
+    gameLoop('random');
   });
 
   manualBtn.addEventListener('click', () => {
@@ -24,6 +25,24 @@ const startGame = () => {
     computerGrid.style.display = 'none';
     computerShips.style.display = 'none';
     shipSelectModal();
+    playerShipSelection();
+  });
+}
+
+const playerShipSelection = () => {
+  const playerGrid = document.getElementById('player-grid');
+  const verticalBtn = document.getElementById('position2');
+  // const {shipPosition} = Gameboard();
+  // const {ships} = Gameboard();
+
+  playerGrid.addEventListener('mouseover', (e) => {
+    const divId = e.target.id;
+    let split = divId.split('-');
+    let coord = [split[1], Number(split[2])];
+
+    // shipPosition(verticalBtn.checked, ships[0].size);
+    console.log(coord);
+    console.log(verticalBtn.checked);
   });
 }
 
@@ -33,7 +52,7 @@ const restartGame = () => {
   document.getElementById('game-setup').remove();
 }
 
-const gameLoop = () => {
+const gameLoop = (selectionType) => {
   const player1 = Player();
   const computer = Computer();
   const compGrid = document.getElementById('computer-grid');
@@ -59,7 +78,10 @@ const gameLoop = () => {
     }
   }
 
-  player1.gameboard.createShips();
+  if (selectionType === 'random') {
+    player1.gameboard.createShips();
+  }
+  
   computer.gameboard.createShips();
   drawShips(player1.gameboard.list);
 

@@ -8,7 +8,7 @@ const ships = [{name: 'carrier', size: 5, row: 'A', col: 4, isVertical: true},
 
 const Gameboard = () => {
   let startCoord = [];
-  let isVertical = true;
+  // let isVertical = true;
   let shipList = [];
   let missedAttacks = [];
   let attackHits = [];
@@ -35,12 +35,17 @@ const Gameboard = () => {
     return row;
   }
 
+  function randomOrientation() {
+    const isVertical = Math.random() > 0.5 ? true : false;
+    return isVertical;
+  }
+
   const shipPosition = (orientation, shipLenth) => {
     let xVal = startCoord[0];
     let yVal = startCoord[1];
     let shipCoord = [];
 
-    isVertical = orientation;
+    let isVertical = orientation;
     shipCoord.push(startCoord);
 
     if (!isVertical) {
@@ -74,23 +79,24 @@ const Gameboard = () => {
 
   const createShips = () =>{
     for (let i = 0; i < ships.length; i++) {
+      let randomBoolean = randomOrientation();
       let ship = Ship(ships[i].size);
-      let col = randomCol(ships[i].size, ships[i].isVertical);
-      let row = randomRow(ships[i].size, ships[i].isVertical);
+      let col = randomCol(ships[i].size, randomBoolean);
+      let row = randomRow(ships[i].size, randomBoolean);
       let positionTemp;
 
       startCoord = [col, row];
       ship.name = ships[i].name;
-      positionTemp = shipPosition(ships[i].isVertical, ships[i].size);
+      positionTemp = shipPosition(randomBoolean, ships[i].size);
 
       if (i > 0) {
         let match = positionCheck(positionTemp);
 
         while (match) {
-          col = randomCol(ships[i].size, ships[i].isVertical);
-          row = randomRow(ships[i].size, ships[i].isVertical);
+          col = randomCol(ships[i].size, randomBoolean);
+          row = randomRow(ships[i].size, randomBoolean);
           startCoord = [col, row];
-          positionTemp = shipPosition(ships[i].isVertical, ships[i].size);
+          positionTemp = shipPosition(randomBoolean, ships[i].size);
           match = positionCheck(positionTemp);
         }
       }
