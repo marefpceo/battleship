@@ -1,7 +1,7 @@
 import { drawShips, gameOver, shipSelectModal } from './pagelayout';
 import { Player, Computer } from './player';
 import './assets/explosion.svg';
-import { Gameboard } from './gameboard';
+import { Gameboard, ships } from './gameboard';
 
 const startGame = () => {
   const randomBtn = document.getElementById('random-btn');
@@ -32,18 +32,54 @@ const startGame = () => {
 const playerShipSelection = () => {
   const playerGrid = document.getElementById('player-grid');
   const verticalBtn = document.getElementById('position2');
-  // const {shipPosition} = Gameboard();
-  // const {ships} = Gameboard();
+  const {shipPosition} = Gameboard();
+  const {positionCheck} = Gameboard();
+  const selectionTemp = [];
+  let count = 0;
 
   playerGrid.addEventListener('mouseover', (e) => {
-    const divId = e.target.id;
-    let split = divId.split('-');
-    let coord = [split[1], Number(split[2])];
+    selectionTemp.length = 0;
 
-    // shipPosition(verticalBtn.checked, ships[0].size);
-    console.log(coord);
-    console.log(verticalBtn.checked);
+    if (e.target.id !== 'player-grid') {
+      const divId = e.target.id;
+      let split = divId.split('-');
+      let coord = [split[1], Number(split[2])];
+
+      let temp = shipPosition(verticalBtn.checked, ships[count].size, coord);
+
+      if (count > 0) {
+        let match = positionCheck(temp);
+        while (match) {
+          console.log('nooo');
+        }
+      }
+      selectionTemp.push(temp);
+
+      for (let i = 0; i < selectionTemp.length; i++) {
+        let coordTemp = selectionTemp[i];
+        for (let j = 0; j < coordTemp.length; j++) {
+          let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
+          const gridId = document.getElementById(squareCoord);
+          gridId.style.backgroundColor = '#84898c';
+          gridId.style.border = '0px';
+        }
+      }
+    }
   });
+
+  playerGrid.addEventListener('mouseout', (e) => {
+    if (e.target.id !== 'player-grid') {
+      for (let i = 0; i < selectionTemp.length; i++) {
+        let coordTemp = selectionTemp[i];
+        for (let j = 0; j < coordTemp.length; j++) {
+          let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
+          const gridId = document.getElementById(squareCoord);
+          gridId.style.backgroundColor = '#d2ecf9';
+          gridId.style.border = '1px solid #1891ac';
+        }
+      }
+    }
+  }); 
 }
 
 const restartGame = () => {

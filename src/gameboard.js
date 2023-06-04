@@ -1,14 +1,9 @@
 import { Ship } from './ships';
 
-const ships = [{name: 'carrier', size: 5, row: 'A', col: 4, isVertical: true}, 
-  {name: 'battleship', size: 4, row: 'E', col: 7, isVertical: false}, 
-  {name: 'cruiser', size: 3, row: 'C', col: 4, isVertical: false}, 
-  {name: 'destroyer', size: 3, row: 'I', col: 2, isVertical: true}, 
-  {name: 'sub', size: 2, row: 'J', col: 9, isVertical: true}];
+const ships = [{name: 'carrier', size: 5}, {name: 'battleship', size: 4,}, {name: 'cruiser', size: 3,}, 
+  {name: 'destroyer', size: 3}, {name: 'sub', size: 2}];
 
 const Gameboard = () => {
-  let startCoord = [];
-  // let isVertical = true;
   let shipList = [];
   let missedAttacks = [];
   let attackHits = [];
@@ -40,7 +35,7 @@ const Gameboard = () => {
     return isVertical;
   }
 
-  const shipPosition = (orientation, shipLenth) => {
+  const shipPosition = (orientation, shipLenth, startCoord) => {
     let xVal = startCoord[0];
     let yVal = startCoord[1];
     let shipCoord = [];
@@ -48,7 +43,7 @@ const Gameboard = () => {
     let isVertical = orientation;
     shipCoord.push(startCoord);
 
-    if (!isVertical) {
+    if (isVertical === false) {
       for (let i = 1; i < shipLenth; i++) {
         xVal = String.fromCharCode(xVal.charCodeAt(0) + 1);
         let temp = [xVal, yVal];
@@ -78,6 +73,8 @@ const Gameboard = () => {
   }
 
   const createShips = () =>{
+    let startCoord;
+
     for (let i = 0; i < ships.length; i++) {
       let randomBoolean = randomOrientation();
       let ship = Ship(ships[i].size);
@@ -87,7 +84,7 @@ const Gameboard = () => {
 
       startCoord = [col, row];
       ship.name = ships[i].name;
-      positionTemp = shipPosition(randomBoolean, ships[i].size);
+      positionTemp = shipPosition(randomBoolean, ships[i].size, startCoord);
 
       if (i > 0) {
         let match = positionCheck(positionTemp);
@@ -96,7 +93,7 @@ const Gameboard = () => {
           col = randomCol(ships[i].size, randomBoolean);
           row = randomRow(ships[i].size, randomBoolean);
           startCoord = [col, row];
-          positionTemp = shipPosition(randomBoolean, ships[i].size);
+          positionTemp = shipPosition(randomBoolean, ships[i].size, startCoord);
           match = positionCheck(positionTemp);
         }
       }
@@ -147,9 +144,6 @@ const Gameboard = () => {
   }
 
   return {
-    get start() {
-      return startCoord;
-    },
     get list() {
       return shipList;
     }, 
@@ -166,8 +160,9 @@ const Gameboard = () => {
     createShips,
     receiveAttack,
     sunkenShips,
-    allShipsSunk
+    allShipsSunk,
+    positionCheck,
   }
 }
 
-export {Gameboard};
+export {Gameboard, ships};
