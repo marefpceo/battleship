@@ -58,10 +58,14 @@ const playerShipSelection = () => {
       for (let i = 0; i < selectionTemp.length; i++) {
         let coordTemp = selectionTemp[i];
         for (let j = 0; j < coordTemp.length; j++) {
-          let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
-          const gridId = document.getElementById(squareCoord);
-          gridId.style.backgroundColor = '#84898c';
-          gridId.style.border = '0px';
+          try {
+            let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
+            const gridId = document.getElementById(squareCoord);
+            gridId.style.backgroundColor = '#84898c';
+            gridId.style.border = '0px';
+          } catch (error) {
+           return; 
+          }
         }
       }
     }
@@ -72,14 +76,25 @@ const playerShipSelection = () => {
       for (let i = 0; i < selectionTemp.length; i++) {
         let coordTemp = selectionTemp[i];
         for (let j = 0; j < coordTemp.length; j++) {
-          let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
-          const gridId = document.getElementById(squareCoord);
-          gridId.style.backgroundColor = '#d2ecf9';
-          gridId.style.border = '1px solid #1891ac';
+          try {
+            let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
+            const gridId = document.getElementById(squareCoord);
+            gridId.style.backgroundColor = '#d2ecf9';
+            gridId.style.border = '1px solid #1891ac';
+          } catch (error) {
+            return;
+          }
         }
       }
     }
-  }); 
+  });
+  
+  playerGrid.addEventListener('click', (e) => {
+    if (e.target.id !== 'player-grid' && count < 5) {
+      count++;
+    }
+    console.log(count);
+  });
 }
 
 const restartGame = () => {
