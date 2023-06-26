@@ -9,6 +9,8 @@
     "build": "webpack"
   },
   "jest": {
+    "verbose": true,
+    "rootDir": "src",
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     }

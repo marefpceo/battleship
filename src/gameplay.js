@@ -30,25 +30,28 @@ const startGame = () => {
 }
 
 const playerShipSelection = () => {
+  const computerGrid = document.getElementById('computer-grid');
+  const computerShips = document.getElementById('computer-ships');
+  const playerShips = document.getElementById('player-ships');
   const playerGrid = document.getElementById('player-grid');
   const verticalBtn = document.getElementById('position2');
   const {shipPosition} = Gameboard();
-  const {positionCheck} = Gameboard();
-  const selectionTemp = [];
   const selected = [];
+
+  let selectionTemp = [];
   let count = 0;
 
-  function drawPlayerSelection () {
-    for (let i = 0; i < selected.length; i++) {
-      let coordTemp = selected[i];
+  function drawPlayerSelection (inputList, color) {
+    for (let i = 0; i < inputList.length; i++) {
+      let coordTemp = inputList[i];
       for (let j = 0; j < coordTemp.length; j++) {
+        let squareCoord = `p-${coordTemp[0]}-${coordTemp[1]}`;
+        const gridId = document.getElementById(squareCoord);
         try {
-          let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
-          const gridId = document.getElementById(squareCoord);
-          gridId.style.backgroundColor = '#84898c';
+          gridId.style.backgroundColor = color;
           gridId.style.border = '0px';
         } catch (error) {
-         return; 
+          return true;
         }
       }
     }
@@ -59,31 +62,18 @@ const playerShipSelection = () => {
 
     if (e.target.id !== 'player-grid') {
       const divId = e.target.id;
+
       let split = divId.split('-');
       let coord = [split[1], Number(split[2])];
-
       let temp = shipPosition(verticalBtn.checked, ships[count].size, coord);
 
-      if (count > 0) {
-        let match = positionCheck(temp);
-        while (match) {
-          console.log('nooo');
-        }
+      for (let i = 0; i < temp.length; i++) {
+        selectionTemp.push(temp[i]);
       }
-      selectionTemp.push(temp);
-
-      for (let i = 0; i < selectionTemp.length; i++) {
-        let coordTemp = selectionTemp[i];
-        for (let j = 0; j < coordTemp.length; j++) {
-          try {
-            let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
-            const gridId = document.getElementById(squareCoord);
-            gridId.style.backgroundColor = '#84898c';
-            gridId.style.border = '0px';
-          } catch (error) {
-           return; 
-          }
-        }
+      if (count === 5) {
+        drawPlayerSelection(selectionTemp, '#84898c');
+      } else {
+        drawPlayerSelection(selectionTemp, 'green');
       }
     }
   });
@@ -92,9 +82,10 @@ const playerShipSelection = () => {
     if (e.target.id !== 'player-grid') {
       for (let i = 0; i < selectionTemp.length; i++) {
         let coordTemp = selectionTemp[i];
+
         for (let j = 0; j < coordTemp.length; j++) {
           try {
-            let squareCoord = `p-${coordTemp[j][0]}-${coordTemp[j][1]}`;
+            let squareCoord = `p-${coordTemp[0]}-${coordTemp[1]}`;
             const gridId = document.getElementById(squareCoord);
 
             if (gridId.style.backgroundColor === '#84898c'){
@@ -102,7 +93,7 @@ const playerShipSelection = () => {
             } else {
               gridId.style.backgroundColor = '#d2ecf9';
               gridId.style.border = '1px solid #1891ac';
-              drawPlayerSelection();
+              drawPlayerSelection(selected, '#84898c');
             }            
           } catch (error) {
             return;
@@ -113,17 +104,50 @@ const playerShipSelection = () => {
   });
   
   playerGrid.addEventListener('click', (e) => {
-    if (e.target.id !== 'player-grid' && count < 5) {
-      for (let i = 0; i < selectionTemp.length; i++) {
-        selected.push(selectionTemp[i]);
-        selectionTemp.splice(i, 1);
-      }
+    const invalidSelection = drawPlayerSelection(selectionTemp, '#84898c');
 
-      drawPlayerSelection();
-      count++;
+    if (invalidSelection === true) {
+      drawPlayerSelection(selectionTemp, '#84898c');
     }
-    console.log(count);
-    console.log(selected);
+    while(!invalidSelection) {
+      if (count < 6) {
+        if (e.target.id !== 'player-grid') {
+          let isMatch;
+          let matchCount = 0;
+          let selectionHold = [];
+  
+          for (let i = 0; i < selectionTemp.length; i++) {
+            let current = selectionTemp[i];
+    
+            for (let j = 0; j < selected.length; j++) {
+              isMatch = JSON.stringify(current) === JSON.stringify(selected[j]);
+              if (isMatch === true) {
+                matchCount++;
+              }
+            }
+            selectionHold.push(selectionTemp[i]);
+          }
+    
+          if (matchCount > 0) {
+            drawPlayerSelection(selected, '#84898c');
+            return;
+          } else {
+            for (let i = 0; i < selectionHold.length; i++) {
+              selected.push(selectionHold[i].slice());
+            }
+            drawPlayerSelection(selected, '#84898c');
+            count++;
+          }
+          
+        }
+        if (count === 5) {
+          console.log(count);
+          playerGrid.style.display = '';
+          gameLoop('select', selected);
+        } 
+        
+      }  
+    }
   });
 }
 
@@ -133,7 +157,7 @@ const restartGame = () => {
   document.getElementById('game-setup').remove();
 }
 
-const gameLoop = (selectionType) => {
+const gameLoop = (selectionType, selectedList) => {
   const player1 = Player();
   const computer = Computer();
   const compGrid = document.getElementById('computer-grid');
@@ -162,12 +186,21 @@ const gameLoop = (selectionType) => {
   if (selectionType === 'random') {
     player1.gameboard.createShips();
   }
+
+  if (selectionType === 'player') {
+    
+    for (let i = 0; i < selectedList.length; i++) {
+      player1.gameboard.shipList.push(selectedList[i].slice());
+      player1.gameboard.gamePieceList.push(selectedList[i].slice());
+    }
+  }
   
   computer.gameboard.createShips();
   drawShips(player1.gameboard.list);
 
   compGrid.addEventListener('click', (e) => {
     const divId = e.target.id;
+
     let split = divId.split('-');
     let coord = [split[1], Number(split[2])];
 
@@ -176,6 +209,7 @@ const gameLoop = (selectionType) => {
     }
 
     let playerResult = computer.gameboard.receiveAttack(coord);
+
     if (playerResult === true) {
       document.getElementById(divId).style.backgroundImage = 'url(assets/explosion.svg)';
     } else {

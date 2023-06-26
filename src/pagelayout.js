@@ -1,4 +1,3 @@
-import battleshipLogo from './assets/battleship-logo.svg';
 import { restartGame, gameLoop } from './gameplay';
 
 const cache = {};
@@ -29,7 +28,7 @@ const header = () => {
 
   logo.id = 'logo';
   logo.alt = 'Battleship logo with missle as letter I';
-  logo.src = battleshipLogo;
+  logo.src = cache['battleship-logo.svg'];
   
   imgDiv.appendChild(logo);
   header.appendChild(imgDiv);

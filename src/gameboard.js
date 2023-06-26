@@ -162,6 +162,8 @@ const Gameboard = () => {
     sunkenShips,
     allShipsSunk,
     positionCheck,
+    shipList,
+    gamePieceList
   }
 }
 
