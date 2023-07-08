@@ -26,6 +26,7 @@ const startGame = () => {
     computerShips.style.display = 'none';
     shipSelectModal();
     playerShipSelection();
+    
   });
 }
 
@@ -34,6 +35,7 @@ const playerShipSelection = () => {
   const computerShips = document.getElementById('computer-ships');
   const playerShips = document.getElementById('player-ships');
   const playerGrid = document.getElementById('player-grid');
+  const shipSelectDiv = document.getElementById('ship-select');
   const verticalBtn = document.getElementById('position2');
   const {shipPosition} = Gameboard();
   const selected = [];
@@ -142,8 +144,12 @@ const playerShipSelection = () => {
         }
         if (count === 5) {
           console.log(count);
-          playerGrid.style.display = '';
-          gameLoop('select', selected);
+          playerGrid.style.pointerEvents = 'none';
+          shipSelectDiv.style.display = 'none';
+          computerGrid.style.display = 'grid';
+          playerShips.style.display = 'flex';
+          computerShips.style.display = 'flex';
+          gameLoop('player', selected);
         } 
         
       }  
@@ -183,20 +189,23 @@ const gameLoop = (selectionType, selectedList) => {
     }
   }
 
+  console.log(selectedList);
+  console.log(player1.gameboard);
   if (selectionType === 'random') {
     player1.gameboard.createShips();
-  }
-
-  if (selectionType === 'player') {
+    drawShips(player1.gameboard.list);
+  }else {
     
     for (let i = 0; i < selectedList.length; i++) {
-      player1.gameboard.shipList.push(selectedList[i].slice());
-      player1.gameboard.gamePieceList.push(selectedList[i].slice());
+      player1.gameboard.createManualShips(selectedList);
+      drawShips(player1.gameboard.list);
+      console.log(player1.gameboard.list.length);
+      console.log(player1.gameboard.gamePieceList);
     }
   }
   
   computer.gameboard.createShips();
-  drawShips(player1.gameboard.list);
+  // drawShips(player1.gameboard.list);
 
   compGrid.addEventListener('click', (e) => {
     const divId = e.target.id;

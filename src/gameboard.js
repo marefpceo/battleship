@@ -106,6 +106,26 @@ const Gameboard = () => {
     return shipList;
   }
 
+  const createManualShips = (shipInputList) => {
+      let count = 0;
+      for (let i = 0; i < ships.length; i++) {
+        let ship = Ship(ships[i].size);
+        let temp = [];
+
+        ship.name = ships[i].name;
+
+        for (let j = 0; j < ship.length; j++) {
+          temp.push(shipInputList[count]);
+          count++;
+        }
+        ship.position = temp;
+        gamePieceList = gamePieceList.concat(ship.position);
+        shipList.push(ship);
+        shipsLeft.push(ship);
+      }
+      return shipList;
+  }
+
   const receiveAttack = (strikeCoord) => {
     for (let i = 0; i < shipList.length; i++) {
        let current = shipList[i].position;
@@ -158,6 +178,7 @@ const Gameboard = () => {
     },
     shipPosition,
     createShips,
+    createManualShips,
     receiveAttack,
     sunkenShips,
     allShipsSunk,
