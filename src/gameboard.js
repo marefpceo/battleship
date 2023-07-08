@@ -1,14 +1,9 @@
 import { Ship } from './ships';
 
-const ships = [{name: 'carrier', size: 5, row: 'A', col: 4, isVertical: true}, 
-  {name: 'battleship', size: 4, row: 'E', col: 7, isVertical: false}, 
-  {name: 'cruiser', size: 3, row: 'C', col: 4, isVertical: false}, 
-  {name: 'destroyer', size: 3, row: 'I', col: 2, isVertical: true}, 
-  {name: 'sub', size: 2, row: 'J', col: 9, isVertical: true}];
+const ships = [{name: 'carrier', size: 5}, {name: 'battleship', size: 4,}, {name: 'cruiser', size: 3,}, 
+  {name: 'destroyer', size: 3}, {name: 'sub', size: 2}];
 
 const Gameboard = () => {
-  let startCoord = [];
-  let isVertical = true;
   let shipList = [];
   let missedAttacks = [];
   let attackHits = [];
@@ -35,15 +30,20 @@ const Gameboard = () => {
     return row;
   }
 
-  const shipPosition = (orientation, shipLenth) => {
+  function randomOrientation() {
+    const isVertical = Math.random() > 0.5 ? true : false;
+    return isVertical;
+  }
+
+  const shipPosition = (orientation, shipLenth, startCoord) => {
     let xVal = startCoord[0];
     let yVal = startCoord[1];
     let shipCoord = [];
 
-    isVertical = orientation;
+    let isVertical = orientation;
     shipCoord.push(startCoord);
 
-    if (!isVertical) {
+    if (isVertical === false) {
       for (let i = 1; i < shipLenth; i++) {
         xVal = String.fromCharCode(xVal.charCodeAt(0) + 1);
         let temp = [xVal, yVal];
@@ -73,24 +73,27 @@ const Gameboard = () => {
   }
 
   const createShips = () =>{
+    let startCoord;
+
     for (let i = 0; i < ships.length; i++) {
+      let randomBoolean = randomOrientation();
       let ship = Ship(ships[i].size);
-      let col = randomCol(ships[i].size, ships[i].isVertical);
-      let row = randomRow(ships[i].size, ships[i].isVertical);
+      let col = randomCol(ships[i].size, randomBoolean);
+      let row = randomRow(ships[i].size, randomBoolean);
       let positionTemp;
 
       startCoord = [col, row];
       ship.name = ships[i].name;
-      positionTemp = shipPosition(ships[i].isVertical, ships[i].size);
+      positionTemp = shipPosition(randomBoolean, ships[i].size, startCoord);
 
       if (i > 0) {
         let match = positionCheck(positionTemp);
 
         while (match) {
-          col = randomCol(ships[i].size, ships[i].isVertical);
-          row = randomRow(ships[i].size, ships[i].isVertical);
+          col = randomCol(ships[i].size, randomBoolean);
+          row = randomRow(ships[i].size, randomBoolean);
           startCoord = [col, row];
-          positionTemp = shipPosition(ships[i].isVertical, ships[i].size);
+          positionTemp = shipPosition(randomBoolean, ships[i].size, startCoord);
           match = positionCheck(positionTemp);
         }
       }
@@ -101,6 +104,26 @@ const Gameboard = () => {
       shipsLeft.push(ship);
     }
     return shipList;
+  }
+
+  const createManualShips = (shipInputList) => {
+      let count = 0;
+      for (let i = 0; i < ships.length; i++) {
+        let ship = Ship(ships[i].size);
+        let temp = [];
+
+        ship.name = ships[i].name;
+
+        for (let j = 0; j < ship.length; j++) {
+          temp.push(shipInputList[count]);
+          count++;
+        }
+        ship.position = temp;
+        gamePieceList = gamePieceList.concat(ship.position);
+        shipList.push(ship);
+        shipsLeft.push(ship);
+      }
+      return shipList;
   }
 
   const receiveAttack = (strikeCoord) => {
@@ -130,20 +153,7 @@ const Gameboard = () => {
     }
   }
 
-  const allShipsSunk = () => {
-    const found = shipList.find(element => element.sunkStatus === false);
-
-    if (found) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   return {
-    get start() {
-      return startCoord;
-    },
     get list() {
       return shipList;
     }, 
@@ -158,10 +168,13 @@ const Gameboard = () => {
     },
     shipPosition,
     createShips,
+    createManualShips,
     receiveAttack,
     sunkenShips,
-    allShipsSunk
+    positionCheck,
+    shipList,
+    gamePieceList
   }
 }
 
-export {Gameboard};
+export {Gameboard, ships};

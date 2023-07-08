@@ -1,4 +1,3 @@
-import battleshipLogo from './assets/battleship-logo.svg';
 import { restartGame, gameLoop } from './gameplay';
 
 const cache = {};
@@ -13,6 +12,7 @@ importAll(require.context('./assets', false, /\.(png|jpe?g|svg)$/));
 const content = document.getElementById('content');
 const container = document.createElement('div');
 const sectionDiv = document.createElement('section');
+const boardDiv = document.createElement('div');
 
 const containerDiv = () => {
   container.className = 'container';
@@ -28,7 +28,7 @@ const header = () => {
 
   logo.id = 'logo';
   logo.alt = 'Battleship logo with missle as letter I';
-  logo.src = battleshipLogo;
+  logo.src = cache['battleship-logo.svg'];
   
   imgDiv.appendChild(logo);
   header.appendChild(imgDiv);
@@ -38,27 +38,78 @@ const header = () => {
 
 const gameSetup = () => {
   const gameSetupDiv = document.createElement('div');
-  const player1Info = document.createElement('div');
-  const nameInputP1 = document.createElement('input');
-  const startBtn = document.createElement('button');
+  const gameInfo = document.createElement('div');
+  const gameButtonDiv = document.createElement('div');
+  const randomBtn = document.createElement('button');
+  const manualBtn = document.createElement('button');
 
-  nameInputP1.type = 'text';
-  nameInputP1.id = 'name';
-  nameInputP1.name = 'name';
-  nameInputP1.placeholder = 'Name';  
-
-  startBtn.id = 'start-btn';
-  startBtn.innerText = 'Start';
+  randomBtn.id = 'random-btn';
+  randomBtn.innerText = 'Random';
+  
+  manualBtn.id = 'manual-btn';
+  manualBtn.innerText = 'Manual';
 
   gameSetupDiv.id = 'game-setup';
-  player1Info.id = 'player1-info';
 
-  player1Info.innerHTML = '<div>Player 1</div>';
-  player1Info.appendChild(nameInputP1);
+  gameInfo.id = 'game-info';
+  gameInfo.innerHTML = '<p>Gamepiece Layout</p>';
+
+  gameButtonDiv.id = 'game-button';
+
+  gameButtonDiv.appendChild(manualBtn);
+  gameButtonDiv.appendChild(randomBtn);
   
-  gameSetupDiv.appendChild(player1Info);
-  gameSetupDiv.appendChild(startBtn);
+  gameSetupDiv.appendChild(gameInfo);
+  gameSetupDiv.appendChild(gameButtonDiv);
   sectionDiv.appendChild(gameSetupDiv);
+}
+
+const shipSelectModal = () => {
+  const shipSelectDiv = document.createElement('div');
+  const selectHeader = document.createElement('div');
+  const selectBody = document.createElement('div');
+  const selectFooter = document.createElement('div');
+  const nextBtn = document.createElement('button');
+  const prevBtn = document.createElement('button');
+
+  shipSelectDiv.id = 'ship-select';
+  selectHeader.id = 'select-header';
+  selectBody.id = 'select-body';
+  selectFooter.id = 'select-footer';
+
+  nextBtn.id = 'next-btn';
+  nextBtn.innerText = 'NEXT';
+  prevBtn.id = 'prev-btn';
+  prevBtn.innerText = 'PREV';
+  selectFooter.appendChild(prevBtn);
+  selectFooter.appendChild(nextBtn);
+
+  selectHeader.innerHTML = '<h2>Prepare your ships for battle!</h2>';  
+
+  for (let i = 1; i < 3; i++) {
+    const toggleDiv = document.createElement('div');
+    const input = document.createElement('input');
+    const label = document.createElement('label');
+
+    toggleDiv.className = 'toggle-div';
+    input.type = 'radio';
+    input.id = `position${i}`;
+    input.name = 'position-toggle';
+    input.checked = input.id === 'position1' ? true : false;
+    label.className = 'toggle-btn';
+    label.setAttribute('for', `position${i}`);
+    label.innerText = input.id === 'position1' ? 'Horizontal' : 'Vertical';
+    
+    toggleDiv.appendChild(input);
+    toggleDiv.appendChild(label);
+    selectBody.appendChild(toggleDiv);
+  }
+
+  shipSelectDiv.appendChild(selectHeader);
+  shipSelectDiv.appendChild(selectBody);
+  shipSelectDiv.appendChild(selectFooter);
+
+  boardDiv.appendChild(shipSelectDiv);
 }
 
 const shipIcons = ['carrier-gray.svg', 'battleship-gray.svg', 'cruiser-gray.svg',
@@ -116,10 +167,8 @@ const gameOver = (name) => {
 
 restartBtn.addEventListener('click', () => {
   restartGame();
-  // initialPageLoad();
   boardSetup();
   document.getElementById('board-container').style.display = 'flex';
-  // gameSetup();
   gameLoop();
 });
 
@@ -154,7 +203,7 @@ quitBtn.addEventListener('click', () => {
 }
 
 const boardSetup = () => {
-  const boardDiv = document.createElement('div');
+
   const playerBoard = document.createElement('div');
   const computerBoard = document.createElement('div');
   const playerShips = document.createElement('div');
@@ -194,4 +243,4 @@ const initialPageLoad = () => {
   container.appendChild(sectionDiv);
 }
 
-export { initialPageLoad, gameSetup, boardSetup, drawShips, gameOver }
+export { initialPageLoad, gameSetup, boardSetup, drawShips, gameOver, shipSelectModal }

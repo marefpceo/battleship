@@ -33,6 +33,10 @@ header {
   height: 120px;
 }
 
+h2 {
+  font-size: 1.5rem;
+}
+
 #image-div {
   background-color: var(--primary-dark);
   background-image: url(assets/battleship-header-bg.jpeg);
@@ -54,6 +58,7 @@ section {
 }
 
 #game-setup,
+#ship-select,
 #game-over {
   display: flex;
   flex-direction: column;
@@ -71,19 +76,65 @@ section {
   font-family: var(--font-main);
 }
 
-#player1-info {
+#ship-select {
+  margin: 0;
+}
+
+#select-body {
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+  padding: 10px 0;
+}
+
+#select-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 20px 0;
+}
+
+.toggle-div {
+  width: 100px;
+  height: auto;
+  position: relative;
+  font-size: 1.3rem;
+  margin: 0 15px;
+}
+
+.toggle-div label,
+.toggle-div input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-div input[type="radio"] {
+  opacity: 0.011;
+  z-index: 100;
+}
+
+.toggle-div input[type="radio"]:checked + label {
+  background:  var(--accent);
+  color: var(--primary-light);
+  border-radius: 5px;
+  border-color: var(--accent);
+}
+
+.toggle-div label {
+  cursor: pointer;
+  z-index: 90;
+  line-height: 1.8em;
+}
+
+#game-info p{
+  margin: 15px 0;
+}
+
+#game-button {
   display: flex;
   justify-content: space-around;
   width: 80%;
-}
-
-#player1-info input {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
-  font-family: var(--font-main);
-  font-size: 1.6rem;
-  border-radius: 5px;
-  width: 40%;
 }
 
 button {

@@ -37,44 +37,56 @@ const Computer = () => {
   }
 
   function smartAttack() {
+    const colUp = (lastHit[0].charCodeAt(0) + 1);
+    const colDown = (lastHit[0].charCodeAt(0) - 1);
+    const rowUp = (lastHit[1] + 1);
+    const rowDown = (lastHit[1] - 1);
+
     if (smartSelection.length === 0) {
-      smartSelection.push([String.fromCharCode(lastHit[0].charCodeAt(0) + 1), lastHit[1]]);
-      smartSelection.push([String.fromCharCode(lastHit[0].charCodeAt(0) - 1), lastHit[1]]);
-      smartSelection.push([lastHit[0], (lastHit[1] + 1)]);
-      smartSelection.push([lastHit[0], (lastHit[1] - 1)]);
+      if (colUp < 75 && colDown > 64){
+        smartSelection.push([String.fromCharCode(colUp), lastHit[1]]);
+        smartSelection.push([String.fromCharCode(colDown), lastHit[1]]);
+      }
+
+      if (rowUp < 11 && rowDown > 0) {
+        smartSelection.push([lastHit[0], rowUp]);
+        smartSelection.push([lastHit[0], rowDown]);
+      }      
+    } else {
+      return;
     }
-
-    let randomNum = Math.floor(Math.random() * smartSelection.length);
-    let nextMove = smartSelection[randomNum];
-    smartSelection.splice(randomNum, 1);
-
-    console.log(smartSelection);
-
-    return nextMove;
   }
     
   const attack = (enemy, enemyCoordMissed, enemyCoordHits) => {
     let coord;
 
-    if (lastHit.length > 0 || smartSelection > 1) {
-      coord = smartAttack();
-      lastHit = coord;
-      // console.log(coord);
-    } else {
-      coord = generateCoord();
-    }
+    if (smartSelection.length > 0) {
+      coord = smartSelection[smartSelection.length - 1];
 
-    while(verifyCoord(coord, enemyCoordMissed, enemyCoordHits)) {
-      coord = generateCoord();
+      while(verifyCoord(coord, enemyCoordMissed, enemyCoordHits)) {
+        smartSelection.pop();
+        coord = smartSelection[smartSelection.length - 1];
+        if (smartSelection.length === 0) {
+          coord = generateCoord();
+        }
+      }
+    } else {
+        coord = generateCoord();
+
+        while(verifyCoord(coord, enemyCoordMissed, enemyCoordHits)) {
+          coord = generateCoord();
+        }
     }
+   
     
     let attack = enemy.receiveAttack(coord);
-
     lastHit = attack === true ? coord : [];
-    console.log(coord);
-    // if (attack === true) {
-    //   lastHit = coord;
-    // }
+
+    if (attack === true) { 
+      smartAttack();
+      lastHit = [];
+    }
+    
 
     return [attack, coord];
   }
