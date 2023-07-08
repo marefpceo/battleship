@@ -143,7 +143,6 @@ const playerShipSelection = () => {
           
         }
         if (count === 5) {
-          console.log(count);
           playerGrid.style.pointerEvents = 'none';
           shipSelectDiv.style.display = 'none';
           computerGrid.style.display = 'grid';
@@ -189,23 +188,18 @@ const gameLoop = (selectionType, selectedList) => {
     }
   }
 
-  console.log(selectedList);
-  console.log(player1.gameboard);
+  
   if (selectionType === 'random') {
     player1.gameboard.createShips();
     drawShips(player1.gameboard.list);
   }else {
-    
     for (let i = 0; i < selectedList.length; i++) {
       player1.gameboard.createManualShips(selectedList);
       drawShips(player1.gameboard.list);
-      console.log(player1.gameboard.list.length);
-      console.log(player1.gameboard.gamePieceList);
     }
   }
   
   computer.gameboard.createShips();
-  // drawShips(player1.gameboard.list);
 
   compGrid.addEventListener('click', (e) => {
     const divId = e.target.id;
