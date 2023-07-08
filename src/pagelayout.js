@@ -167,10 +167,8 @@ const gameOver = (name) => {
 
 restartBtn.addEventListener('click', () => {
   restartGame();
-  // initialPageLoad();
   boardSetup();
   document.getElementById('board-container').style.display = 'flex';
-  // gameSetup();
   gameLoop();
 });
 

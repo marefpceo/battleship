@@ -153,16 +153,6 @@ const Gameboard = () => {
     }
   }
 
-  const allShipsSunk = () => {
-    const found = shipList.find(element => element.sunkStatus === false);
-
-    if (found) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   return {
     get list() {
       return shipList;
@@ -181,7 +171,6 @@ const Gameboard = () => {
     createManualShips,
     receiveAttack,
     sunkenShips,
-    allShipsSunk,
     positionCheck,
     shipList,
     gamePieceList

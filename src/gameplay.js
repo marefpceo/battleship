@@ -26,7 +26,6 @@ const startGame = () => {
     computerShips.style.display = 'none';
     shipSelectModal();
     playerShipSelection();
-    
   });
 }
 
@@ -98,8 +97,8 @@ const playerShipSelection = () => {
               drawPlayerSelection(selected, '#84898c');
             }            
           } catch (error) {
-            return;
-          }
+              return;
+            }
         }
       }
     }
@@ -139,9 +138,9 @@ const playerShipSelection = () => {
             }
             drawPlayerSelection(selected, '#84898c');
             count++;
-          }
-          
+          } 
         }
+        
         if (count === 5) {
           playerGrid.style.pointerEvents = 'none';
           shipSelectDiv.style.display = 'none';
@@ -150,7 +149,6 @@ const playerShipSelection = () => {
           computerShips.style.display = 'flex';
           gameLoop('player', selected);
         } 
-        
       }  
     }
   });
@@ -168,27 +166,36 @@ const gameLoop = (selectionType, selectedList) => {
   const compGrid = document.getElementById('computer-grid');
 
   let sunkResult;
-  let allSunk;
+  let playerCount = 0;
+  let compCount = 0;
 
   function gameTurn(enemy) {
-    let winner = enemy === player1 ? 'computer' : 'player1'; 
     let initial = enemy.name.charAt(0);
 
     sunkResult = enemy.gameboard.sunkenShips();
-    allSunk = enemy.gameboard.allShipsSunk();
 
     if (sunkResult !== undefined) {
       document.getElementById(`${initial}-${sunkResult}`).src = `./assets/${sunkResult}-red.svg`;
+      if (initial === 'p') {
+        playerCount++;
+      } 
+      if (initial === 'c') {
+        compCount++;
+      }
     }
 
-    if (allSunk === true) {
+    if (compCount === 5) {
       document.getElementById('board-container').style.display = 'none';
-      gameOver(winner);
+      gameOver('player1');
+      document.getElementById('game-over').style.display = 'flex';
+    }
+    if (playerCount === 5) {
+      document.getElementById('board-container').style.display = 'none';
+      gameOver('computer');
       document.getElementById('game-over').style.display = 'flex';
     }
   }
 
-  
   if (selectionType === 'random') {
     player1.gameboard.createShips();
     drawShips(player1.gameboard.list);

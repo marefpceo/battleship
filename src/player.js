@@ -37,11 +37,21 @@ const Computer = () => {
   }
 
   function smartAttack() {
+    const colUp = (lastHit[0].charCodeAt(0) + 1);
+    const colDown = (lastHit[0].charCodeAt(0) - 1);
+    const rowUp = (lastHit[1] + 1);
+    const rowDown = (lastHit[1] - 1);
+
     if (smartSelection.length === 0) {
-      smartSelection.push([String.fromCharCode(lastHit[0].charCodeAt(0) + 1), lastHit[1]]);
-      smartSelection.push([String.fromCharCode(lastHit[0].charCodeAt(0) - 1), lastHit[1]]);
-      smartSelection.push([lastHit[0], (lastHit[1] + 1)]);
-      smartSelection.push([lastHit[0], (lastHit[1] - 1)]);
+      if (colUp < 75 && colDown > 64){
+        smartSelection.push([String.fromCharCode(colUp), lastHit[1]]);
+        smartSelection.push([String.fromCharCode(colDown), lastHit[1]]);
+      }
+
+      if (rowUp < 11 && rowDown > 0) {
+        smartSelection.push([lastHit[0], rowUp]);
+        smartSelection.push([lastHit[0], rowDown]);
+      }      
     } else {
       return;
     }
