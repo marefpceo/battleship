@@ -2,8 +2,10 @@
 TOP Project to recreate the classic Battleship game.
 
 To Play: 
-Enter name and/ or press the start button. 
-Gamepieces will be placed randomly on the board. 
+Select Manual to manually place game pieces in the desired location.
+Rotate game pieces by clicking the horizontal or vertical button prior to selecting the grid location.
+
+Select Random to have the computer randomly select the game piece locations. 
 
 To Attack:
 Click one of the squares on the computer's gameboard (right). 
