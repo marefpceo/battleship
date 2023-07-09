@@ -19,7 +19,7 @@ const Computer = () => {
   function generateCoord() {
     const col = String.fromCharCode(Math.floor(Math.random() * (74 - 65 + 1) + 65));
     const row = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-    return [col, row] 
+    return [col, row];
   }
 
   function verifyCoord(coord, enemyCoordMissed, enemyCoordHits) {
@@ -77,8 +77,7 @@ const Computer = () => {
           coord = generateCoord();
         }
     }
-   
-    
+
     let attack = enemy.receiveAttack(coord);
     lastHit = attack === true ? coord : [];
 
@@ -86,8 +85,6 @@ const Computer = () => {
       smartAttack();
       lastHit = [];
     }
-    
-
     return [attack, coord];
   }
   return {attack, verifyCoord, gameboard, name};

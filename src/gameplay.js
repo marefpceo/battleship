@@ -155,9 +155,7 @@ const playerShipSelection = () => {
 }
 
 const restartGame = () => {
-  document.getElementById('game-over').remove();
-  document.getElementById('board-container').remove();
-  document.getElementById('game-setup').remove();
+  window.location.reload();
 }
 
 const gameLoop = (selectionType, selectedList) => {

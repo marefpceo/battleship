@@ -1,4 +1,4 @@
-import { restartGame, gameLoop } from './gameplay';
+import { restartGame, startGame } from './gameplay';
 
 const cache = {};
 
@@ -69,20 +69,11 @@ const shipSelectModal = () => {
   const selectHeader = document.createElement('div');
   const selectBody = document.createElement('div');
   const selectFooter = document.createElement('div');
-  const nextBtn = document.createElement('button');
-  const prevBtn = document.createElement('button');
 
   shipSelectDiv.id = 'ship-select';
   selectHeader.id = 'select-header';
   selectBody.id = 'select-body';
   selectFooter.id = 'select-footer';
-
-  nextBtn.id = 'next-btn';
-  nextBtn.innerText = 'NEXT';
-  prevBtn.id = 'prev-btn';
-  prevBtn.innerText = 'PREV';
-  selectFooter.appendChild(prevBtn);
-  selectFooter.appendChild(nextBtn);
 
   selectHeader.innerHTML = '<h2>Prepare your ships for battle!</h2>';  
 
@@ -167,9 +158,9 @@ const gameOver = (name) => {
 
 restartBtn.addEventListener('click', () => {
   restartGame();
+  gameSetup();
   boardSetup();
-  document.getElementById('board-container').style.display = 'flex';
-  gameLoop();
+  startGame();
 });
 
 quitBtn.addEventListener('click', () => {
@@ -192,7 +183,6 @@ quitBtn.addEventListener('click', () => {
   quitBtn.type = 'button';
   quitBtn.innerText = 'Quit';
 
-  
   gameOverFooter.appendChild(restartBtn);
   gameOverFooter.appendChild(quitBtn);
 
