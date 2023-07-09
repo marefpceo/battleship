@@ -1,5 +1,10 @@
-# battleship
+# Battleship
+
+## Objective
+
 TOP Project to recreate the classic Battleship game.
+
+
 
 To Play: 
 Select Manual to manually place game pieces in the desired location.
